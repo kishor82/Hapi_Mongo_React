@@ -1,5 +1,14 @@
 const isUsingNpm = process.env.npm_config_git !== undefined;
 const packageJson = require('./package.json');
+const fs = require('fs');
+const path = require('path');
+   
+fs.mkdir(path.join(__dirname, 'client'), (err) => {
+    if (err) {
+     // Don't do anything if directory already exist.
+    }
+});
+
 const getVersionNumber = (string) => string.replace(/^\D+/g, '');
 if (process.version) {
   if (getVersionNumber(process.version).substr(0, 5) < getVersionNumber(packageJson.engines.node).substr(0, 5)) {
