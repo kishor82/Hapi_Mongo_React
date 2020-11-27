@@ -88,4 +88,4 @@ const healthCheck = (server: Server, config: any, Mongoose: any) => {
   };
 };
 
-export { healthCheck };
+export default healthCheck ;

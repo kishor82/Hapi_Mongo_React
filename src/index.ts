@@ -6,6 +6,7 @@ import logging from './services/logging';
 import { createMongoConnectoin } from './data-access';
 import getServerOptions from './services/http_tools';
 import registerPlugins from './services/register_plugins';
+import wrapError from './services/wrap_error';
 (async () => {
   const server = new Server(getServerOptions(config.server));
 
@@ -44,6 +45,6 @@ import registerPlugins from './services/register_plugins';
     }
   }
   process.on('unhandledRejection', (err: any) => {
-    server.log(['fatal'], err);
+    server.log(['fatal'], wrapError(err));
   });
 })();
