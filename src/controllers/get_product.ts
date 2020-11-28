@@ -4,11 +4,11 @@ export default ({ getProduct, wrapError }: any) => {
     try {
       const product = await getProduct({ _id: request.params.id });
       if (!product) {
-        return h.response({ message: 'Product not found' }).code(404);
+        return h.response({ statusCode: 404, data: { message: 'Product not found' } }).code(404);
       }
       return { statusCode: 200, data: product };
     } catch (err) {
-      return err;
+      throw wrapError(err);
     }
   };
 };
