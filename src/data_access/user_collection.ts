@@ -26,10 +26,20 @@ const makeUserCollection = ({ createMongoConnectoin, userModel }: any) => {
     }
   };
 
+  const createNewUser = async ({ userData }: any) => {
+    try {
+      const dbConnection = await createMongoConnectoin();
+      return userModel({ dbConnection }).create({ ...userData });
+    } catch (err) {
+      throw err;
+    }
+  };
+
   return Object.freeze({
     getAllusers,
     getUserById,
     getUserByEmail,
+    createNewUser,
   });
 };
 

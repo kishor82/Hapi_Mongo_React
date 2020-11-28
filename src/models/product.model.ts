@@ -1,8 +1,9 @@
-const makeProductModelConnetion = ({ dbConnection }: any) => {
+import { Mongoose } from 'mongoose';
+const makeProductModelConnetion = ({ dbConnection }: { dbConnection: Mongoose }) => {
   try {
     return dbConnection.model('Product');
   } catch (e) {
-    const reviewSchema = dbConnection.Schema(
+    const reviewSchema = new dbConnection.Schema(
       {
         name: { type: String, required: true },
         rating: { type: Number, required: true },
@@ -10,7 +11,7 @@ const makeProductModelConnetion = ({ dbConnection }: any) => {
       },
       { timestamps: true }
     );
-    const productSchema = dbConnection.Schema(
+    const productSchema = new dbConnection.Schema(
       {
         user: { type: dbConnection.Schema.Types.ObjectId },
         name: { type: String, trim: true, required: true },
@@ -31,4 +32,3 @@ const makeProductModelConnetion = ({ dbConnection }: any) => {
 };
 
 export default makeProductModelConnetion;
- 

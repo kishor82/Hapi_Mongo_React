@@ -5,12 +5,14 @@ import {
   getProductAction,
   loginAction,
   getUserProfileAction,
+  registerUserAction,
 } from './controllers';
 import {
   API_ROUTE_GREETING,
   API_ROUTE_GET_PRODUCTS,
   API_ROUTE_LOGIN,
   API_ROUTE_GET_USER_PROFILE,
+  API_ROUTE_REGISTER,
 } from './common/constants';
 import Joi from 'joi';
 export const routes = (server: Server) => {
@@ -44,6 +46,23 @@ export const routes = (server: Server) => {
         validate: {
           params: Joi.object({
             id: Joi.string().required(),
+          }),
+        },
+      },
+    },
+    {
+      method: 'POST',
+      path: `${API_ROUTE_REGISTER}`,
+      handler: registerUserAction,
+      options: {
+        auth: false,
+        description: 'Register a new user.',
+        tags: ['api'],
+        validate: {
+          payload: Joi.object({
+            name: Joi.string().required(),
+            email: Joi.string().required(),
+            password: Joi.string().required(),
           }),
         },
       },

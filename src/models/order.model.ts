@@ -1,10 +1,9 @@
-import { string } from 'joi';
-
-const makeOrderModelConnetion = ({ dbConnection }: any) => {
+import { Mongoose } from 'mongoose';
+const makeOrderModelConnetion = ({ dbConnection }: { dbConnection: Mongoose }) => {
   try {
     return dbConnection.model('Order');
   } catch (e) {
-    const orderSchema = dbConnection.Schema(
+    const orderSchema = new dbConnection.Schema(
       {
         user: { type: dbConnection.Schema.Types.ObjectId, required: true, ref: 'User' },
         orderItems: [

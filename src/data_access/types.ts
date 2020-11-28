@@ -6,4 +6,5 @@ export interface UserCollection {
   getAllusers: () => Promise<any>;
   getUserById: ({ _id }: { _id: string }) => Promise<any>;
   getUserByEmail: ({ email }: { email: string }) => Promise<any>;
+  createNewUser: ({ userData }: any) => Promise<any>;
 }
