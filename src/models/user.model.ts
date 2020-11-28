@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 const makeUserModelConnetion = ({ dbConnection }: any) => {
   try {
     return dbConnection.model('User');
@@ -11,6 +12,10 @@ const makeUserModelConnetion = ({ dbConnection }: any) => {
       },
       { timestamps: true }
     );
+
+    userSchema.methods.matchPassword = async function (enteredPassword: string) {
+      return await bcrypt.compare(enteredPassword, this.password);
+    };
     return dbConnection.model('User', userSchema);
   }
 };

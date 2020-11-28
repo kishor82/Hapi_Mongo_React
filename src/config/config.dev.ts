@@ -40,4 +40,5 @@ export = {
   healthCheck: {
     delay: 5000,
   },
+  jwt_secret_key: '=Bu^%A@^F#SwsYhF3&kSR6!FA*C2U6nz',
 };

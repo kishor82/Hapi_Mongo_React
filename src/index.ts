@@ -1,12 +1,13 @@
-import { Server, Request, ResponseToolkit, server } from '@hapi/hapi';
+import { Server, Request, ResponseToolkit } from '@hapi/hapi';
 import { routes } from './routes';
 import Inert from '@hapi/inert';
 import config from './config';
 import logging from './services/logging';
-import { createMongoConnectoin } from './data-access';
+import { createMongoConnectoin } from './data_access';
 import getServerOptions from './services/http_tools';
 import registerPlugins from './services/register_plugins';
-import wrapError from './services/wrap_error';
+import registerStrategy from './services/register_strategy';
+import wrapError from './utils/wrap_error';
 (async () => {
   const server = new Server(getServerOptions(config.server));
 
@@ -16,6 +17,7 @@ import wrapError from './services/wrap_error';
     createMongoConnectoin(server, config);
     routes(server);
     await registerPlugins(server);
+    await registerStrategy(server, config);
     server.ext({
       type: 'onPreResponse',
       method: async (request: Request, h: ResponseToolkit) => {

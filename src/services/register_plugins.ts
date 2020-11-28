@@ -8,14 +8,15 @@ export default async (server: Server) => {
     info: {
       title: 'API Documentation',
     },
-    // securityDefinitions: {
-    //   jwt: {
-    //     type: 'apiKey',
-    //     name: 'Authorization',
-    //     in: 'header',
-    //   },
-    // },
-    // jwt: [{ jwt: [] }],
+    securityDefinitions: {
+      jwt: {
+        type: 'apiKey',
+        name: 'Authorization',
+        in: 'header',
+      },
+    },
+    security: [{ jwt: [] }],
+    auth: false
   };
 
   const plugins: Array<ServerRegisterPluginObject<any>> = [
@@ -32,7 +33,7 @@ export default async (server: Server) => {
   ];
 
   /**
-   * Route for build directory ot support react routes.
+   * Route for build directory to support react routes.
    */
 
   server.route({
