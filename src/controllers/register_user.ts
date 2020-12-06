@@ -18,7 +18,7 @@ export default ({ getUserByEmail, createNewUser, generateToken, generateCustomEr
       if (user) {
         const { _id, name, email, isAdmin } = user;
         return h
-          .response({ statusCode: 201, data: { _id, name, email, isAdmin, token: generateToken(_id) } })
+          .response({ statusCode: 201, data: { _id, name, email, isAdmin, token: generateToken(_id, email) } })
           .code(201);
       } else {
         throw generateCustomError('Invalid user data.', 400);

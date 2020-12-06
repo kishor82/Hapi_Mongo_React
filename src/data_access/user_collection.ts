@@ -35,11 +35,30 @@ const makeUserCollection = ({ createMongoConnectoin, userModel }: any) => {
     }
   };
 
+  async function updateUserById({ _id, dataToUpdate }: any) {
+    try {
+      const dbConnection = await createMongoConnectoin();
+      return await userModel({ dbConnection })
+        .updateOne(
+          { _id },
+          {
+            $set: {
+              ...dataToUpdate,
+            },
+          }
+        )
+        .lean();
+    } catch (err) {
+      throw err;
+    }
+  }
+
   return Object.freeze({
     getAllusers,
     getUserById,
     getUserByEmail,
     createNewUser,
+    updateUserById,
   });
 };
 

@@ -50,8 +50,8 @@ class LoggerStringFormat extends LogFormat {
     const time = color('time')(this.extractAndFormatTimestamp(data, 'HH:mm:ss.SSS'));
     const msg = data.error ? color('error')(data.error.stack) : color('message')(data.message);
     if (data.user) {
-      const { email, username } = data.user;
-      data.tags.push(`${username}:${email}`);
+      const { email } = data.user;
+      data.tags.push(`${email}`);
     }
 
     const tags = _(data.tags)

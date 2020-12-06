@@ -6,7 +6,7 @@ export default ({ getUserByEmail, generateToken, generateCustomError, wrapError 
       const user = await getUserByEmail({ email });
       if (user && (await user.matchPassword(password))) {
         const { _id, name, email, isAdmin } = user;
-        return { statusCode: 200, data: { _id, name, email, isAdmin, token: generateToken(_id) } };
+        return { statusCode: 200, data: { _id, name, email, isAdmin, token: generateToken(_id, email) } };
       } else {
         throw generateCustomError('Invalid email or password', 401);
       }

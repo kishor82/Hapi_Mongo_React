@@ -62,7 +62,7 @@ class TransformObjStream extends Stream.Transform {
     if (event.headers && event.headers.authorization) {
       const data = jwt.decode(event.headers.authorization);
       if (data) {
-        user = pick(data, ['username', 'email']);
+        user = pick(data, ['name', 'email']);
       }
     }
 
