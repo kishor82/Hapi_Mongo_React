@@ -33,7 +33,7 @@ const makeOrderModelConnetion = ({ dbConnection }: { dbConnection: Mongoose }) =
           email_address: { type: String },
         },
         taxPrice: { type: Number, return: true, default: 0.0 },
-        shipingPrice: { type: Number, return: true, default: 0.0 },
+        shippingPrice: { type: Number, return: true, default: 0.0 },
         totalPrice: { type: Number, return: true, default: 0.0 },
         isPaid: { type: Boolean, required: true, default: false },
         paidAt: { type: Date },

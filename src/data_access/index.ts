@@ -6,6 +6,8 @@ import makeUserCollection from './user_collection';
 import makeProductCollection from './product_collection';
 import userModel from '../models/user.model';
 import productModel from '../models/product.model';
+import orderModel from '../models/order.model';
+import makeOrderCollection from './order_collection';
 
 const { mongo } = config;
 
@@ -22,9 +24,7 @@ const getMongoURL = () => {
   const credentials = mongo.username ? `${mongo.username}:${mongo.password}@` : '';
   return `mongodb://${credentials}${mongo.hosts}/${mongo.database}${
     mongo.authSource
-      ? `?authSource=${mongo.authSource}${
-          mongo.replicaSet ? `&replicaSet=${mongo.replicaSet}` : ''
-        }`
+      ? `?authSource=${mongo.authSource}${mongo.replicaSet ? `&replicaSet=${mongo.replicaSet}` : ''}`
       : ''
   }`;
 };
@@ -53,4 +53,8 @@ const productCollection = makeProductCollection({
   productModel,
 });
 
-export { createMongoConnectoin, userCollection, productCollection };
+const orderCollection = makeOrderCollection({
+  createMongoConnectoin,
+  orderModel,
+});
+export { createMongoConnectoin, userCollection, productCollection, orderCollection };

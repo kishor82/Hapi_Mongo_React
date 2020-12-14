@@ -7,6 +7,7 @@ import {
   getUserProfileAction,
   registerUserAction,
   updateUserProfileAction,
+  addOrderItemsAction,
 } from './controllers';
 import {
   API_ROUTE_GREETING,
@@ -14,6 +15,7 @@ import {
   API_ROUTE_LOGIN,
   API_ROUTE_USER_PROFILE,
   API_ROUTE_REGISTER,
+  API_ROUTE_ADD_ORDER_ITEMS,
 } from './common/constants';
 import Joi from 'joi';
 export const routes = (server: Server) => {
@@ -105,8 +107,46 @@ export const routes = (server: Server) => {
         validate: {
           payload: Joi.object({
             name: Joi.string(),
-            email: Joi.string().email().required(),
+            email: Joi.string().email(),
             password: Joi.string(),
+          }),
+        },
+      },
+    },
+    {
+      method: 'POST',
+      path: `${API_ROUTE_ADD_ORDER_ITEMS}`,
+      handler: addOrderItemsAction,
+      options: {
+        description: 'Add order items.',
+        tags: ['api'],
+        validate: {
+          payload: Joi.object({
+            orderItems: Joi.array()
+              .items(
+                Joi.object({
+                  name: Joi.string().required(),
+                  qty: Joi.number().required(),
+                  image: Joi.string().required(),
+                  price: Joi.number().required(),
+                  product: Joi.string()
+                    .pattern(new RegExp(/^[0-9a-fA-F]{24}$/))
+                    .message('Invalid ObjectId')
+                    .required(),
+                }).unknown(true)
+              )
+              .required(),
+            shippingAddress: Joi.object({
+              address: Joi.string().required(),
+              city: Joi.string().required(),
+              postalCode: Joi.string().required(),
+              country: Joi.string().required(),
+            }).required(),
+            paymentMethod: Joi.string().required(),
+            itemsPrice: Joi.number().required(),
+            taxPrice: Joi.number().required(),
+            shippingPrice: Joi.number().required(),
+            totalPrice: Joi.number().required(),
           }),
         },
       },

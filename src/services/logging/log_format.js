@@ -16,7 +16,7 @@ const serializeError = (err = {}) => {
     name: err.name,
     stack: err.stack,
     code: err.code,
-    signal: err.signal
+    signal: err.signal,
   };
 };
 
@@ -31,10 +31,9 @@ class TransformObjStream extends Stream.Transform {
   constructor(config) {
     super({
       readableObjectMode: false,
-      writableObjectMode: true
+      writableObjectMode: true,
     });
     this.config = config;
-
   }
 
   filter(data) {
@@ -60,9 +59,12 @@ class TransformObjStream extends Stream.Transform {
   readEvent(event) {
     let user;
     if (event.headers && event.headers.authorization) {
-      const data = jwt.decode(event.headers.authorization);
+      /**
+       * Remove token type from authorization header ( e.g: Bearer token )
+       */
+      const data = jwt.decode(event.headers.authorization.split(' ')[1]);
       if (data) {
-        user = pick(data, ['name', 'email']);
+        user = pick(data, ['email']);
       }
     }
 
@@ -71,14 +73,11 @@ class TransformObjStream extends Stream.Transform {
       '@timestamp': event.timestamp,
       tags: [].concat(event.tags || []),
       pid: event.pid,
-      user
+      user,
     };
 
     if (data.type === 'response') {
-      defaults(data, pick(event, [
-        'method',
-        'statusCode'
-      ]));
+      defaults(data, pick(event, ['method', 'statusCode']));
 
       const source = get(event, 'source', {});
       data.req = {
@@ -87,7 +86,7 @@ class TransformObjStream extends Stream.Transform {
         headers: event.headers,
         remoteAddress: source.remoteAddress,
         userAgent: source.remoteAddress,
-        referer: source.referer
+        referer: source.referer,
       };
 
       let contentLength = 0;
@@ -100,7 +99,7 @@ class TransformObjStream extends Stream.Transform {
       data.res = {
         statusCode: event.statusCode,
         responseTime: event.responseTime,
-        contentLength: contentLength
+        contentLength: contentLength,
       };
 
       const query = querystring.stringify(event.query);
@@ -113,14 +112,8 @@ class TransformObjStream extends Stream.Transform {
       data.message += ' ';
       data.message += chalk.gray(data.res.responseTime + 'ms');
       data.message += chalk.gray(' - ' + numeral(contentLength).format('0.0b'));
-    }
-    else if (data.type === 'ops') {
-      defaults(data, pick(event, [
-        'pid',
-        'os',
-        'proc',
-        'load'
-      ]));
+    } else if (data.type === 'ops') {
+      defaults(data, pick(event, ['pid', 'os', 'proc', 'load']));
       data.message = chalk.gray('memory: ');
       data.message += numeral(get(data, 'proc.mem.heapUsed')).format('0.0b');
       data.message += ' ';
@@ -128,32 +121,30 @@ class TransformObjStream extends Stream.Transform {
       data.message += numeral(get(data, 'proc.uptime')).format('00:00:00');
       data.message += ' ';
       data.message += chalk.gray('load: [');
-      data.message += get(data, 'os.load', []).map(function (val) {
-        return numeral(val).format('0.00');
-      }).join(' ');
+      data.message += get(data, 'os.load', [])
+        .map(function (val) {
+          return numeral(val).format('0.00');
+        })
+        .join(' ');
       data.message += chalk.gray(']');
       data.message += ' ';
       data.message += chalk.gray('delay: ');
       data.message += numeral(get(data, 'proc.delay')).format('0.000');
-    }
-    else if (data.type === 'error') {
+    } else if (data.type === 'error') {
       data.level = 'error';
       data.error = serializeError(event.error);
       data.url = event.url;
       const message = get(event, 'error.message');
       data.message = message || 'Unknown error (no message)';
-    }
-    else if (event.error instanceof Error) {
+    } else if (event.error instanceof Error) {
       data.type = 'error';
       data.level = includes(event.tags, 'fatal') ? 'fatal' : 'error';
       data.error = serializeError(event.error);
       const message = get(event, 'error.message');
       data.message = message || 'Unknown error object (no message)';
-    }
-    else if (logWithMetadata.isLogEvent(event.data)) {
+    } else if (logWithMetadata.isLogEvent(event.data)) {
       assign(data, logWithMetadata.getLogEventData(event.data));
-    }
-    else {
+    } else {
       data.message = isString(event.data) ? event.data : inspect(event.data);
     }
     return data;
