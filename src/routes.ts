@@ -9,6 +9,7 @@ import {
   updateUserProfileAction,
   addOrderItemsAction,
   getOrderByIdAction,
+  updateOrderToPaidAction,
 } from './controllers';
 import {
   API_ROUTE_GREETING,
@@ -17,10 +18,11 @@ import {
   API_ROUTE_USER_PROFILE,
   API_ROUTE_REGISTER,
   API_ROUTE_ORDER,
+  API_ROUTE_GET_PAYAL_CLIENT_ID,
 } from './common/constants';
 import Joi from 'joi';
-import { getOrderById } from './use_cases';
-export const routes = (server: Server) => {
+
+export const routes = (server: Server, config: any) => {
   server.route([
     {
       method: 'GET',
@@ -29,6 +31,19 @@ export const routes = (server: Server) => {
       options: {
         auth: false,
         description: 'Greet with welcome message',
+        tags: ['api'],
+      },
+    },
+    {
+      method: 'GET',
+      path: `${API_ROUTE_GET_PAYAL_CLIENT_ID}`,
+      handler: () => {
+        const { paypal_client_id } = config;
+        return paypal_client_id;
+      },
+      options: {
+        auth: false,
+        description: 'Get paypal client id.',
         tags: ['api'],
       },
     },
@@ -164,6 +179,26 @@ export const routes = (server: Server) => {
           params: Joi.object({
             id: Joi.string().required(),
           }),
+        },
+      },
+    },
+    {
+      method: 'PUT',
+      path: `${API_ROUTE_ORDER}/{id}/pay`,
+      handler: updateOrderToPaidAction,
+      options: {
+        description: 'Update unpaid order to paid.',
+        tags: ['api'],
+        validate: {
+          params: Joi.object({
+            id: Joi.string().required(),
+          }),
+          payload: Joi.object({
+            id: Joi.string().required(),
+            status: Joi.string().required(),
+            update_time: Joi.date().required(),
+            payer: Joi.object().required(),
+          }).unknown(true),
         },
       },
     },

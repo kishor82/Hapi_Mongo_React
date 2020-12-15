@@ -56,5 +56,6 @@ const productCollection = makeProductCollection({
 const orderCollection = makeOrderCollection({
   createMongoConnectoin,
   orderModel,
+  userModel,
 });
 export { createMongoConnectoin, userCollection, productCollection, orderCollection };

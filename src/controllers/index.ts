@@ -18,6 +18,7 @@ import makeRegisterUserAction from './register_user';
 import makeUpdateUserProfileAction from './update_user_profile';
 import makeAddOrderItemsAction from './add_order_items';
 import makeGetOrderItemsAction from './get_order_by_id';
+import makeUpdateOrderToPaidAction from './update_order_to_paid';
 
 import wrapError from '../utils/wrap_error';
 import generateCustomError from '../utils/custom_error';
@@ -30,6 +31,7 @@ const loginAction = makeLoginAction({ getUserByEmail, generateToken, generateCus
 const getUserProfileAction = makeGetUserProfileAction({ getUserById, generateCustomError, wrapError });
 const addOrderItemsAction = makeAddOrderItemsAction({ addOrderItems, wrapError });
 const getOrderByIdAction = makeGetOrderItemsAction({ getOrderById, generateCustomError, wrapError });
+const updateOrderToPaidAction = makeUpdateOrderToPaidAction({ getOrderById, generateCustomError, wrapError });
 
 const updateUserProfileAction = makeUpdateUserProfileAction({
   getUserById,
@@ -54,5 +56,6 @@ export {
   registerUserAction,
   updateUserProfileAction,
   addOrderItemsAction,
-  getOrderByIdAction
+  getOrderByIdAction,
+  updateOrderToPaidAction,
 };

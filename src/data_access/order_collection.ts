@@ -1,4 +1,4 @@
-const makeOrderCollection = ({ createMongoConnectoin, orderModel }: any) => {
+const makeOrderCollection = ({ createMongoConnectoin, orderModel, userModel }: any) => {
   const createNewOrder = async ({ orderData }: any) => {
     try {
       const dbConnection = await createMongoConnectoin();
@@ -13,16 +13,37 @@ const makeOrderCollection = ({ createMongoConnectoin, orderModel }: any) => {
       const dbConnection = await createMongoConnectoin();
       /**
        * Return order data with usre name and email address from user collection.
+       * Before that register user model to populate user.
        */
-      return orderModel({ dbConnection }).findById(_id);
+      await userModel({ dbConnection });
+      return orderModel({ dbConnection }).findById(_id).populate('user', 'name email');
     } catch (err) {
       throw err;
     }
   };
 
+  async function updateOrderById({ _id, dataToUpdate }: any) {
+    try {
+      const dbConnection = await createMongoConnectoin();
+      return await orderModel({ dbConnection })
+        .updateOne(
+          { _id },
+          {
+            $set: {
+              ...dataToUpdate,
+            },
+          }
+        )
+        .lean();
+    } catch (err) {
+      throw err;
+    }
+  }
+
   return Object.freeze({
     createNewOrder,
     getOrderById,
+    updateOrderById
   });
 };
 

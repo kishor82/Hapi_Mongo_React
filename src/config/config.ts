@@ -41,4 +41,5 @@ export = {
     delay: 5000,
   },
   jwt_secret_key: process.env.JWT_SECRET_KEY,
+  paypal_client_id: process.env.PAYPAL_CLIENT_ID,
 };

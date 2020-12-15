@@ -15,7 +15,7 @@ import wrapError from './utils/wrap_error';
   await logging(server, config);
   try {
     createMongoConnectoin(server, config);
-    routes(server);
+    routes(server,config);
     await registerPlugins(server);
     await registerStrategy(server, config);
     server.ext({

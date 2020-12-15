@@ -1,5 +1,5 @@
 import { Request } from '@hapi/hapi';
-export default ({ getUserById, updateUserById, generateToken, generateCustomError, wrapError }: any) => {
+export default ({ getUserById, generateToken, generateCustomError, wrapError }: any) => {
   return async (request: Request) => {
     try {
       const { _id } = request.auth.credentials;

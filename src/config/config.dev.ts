@@ -41,4 +41,5 @@ export = {
     delay: 5000,
   },
   jwt_secret_key: '=Bu^%A@^F#SwsYhF3&kSR6!FA*C2U6nz',
+  paypal_client_id: 'AcMsWrnUysozLhaB-3en_sXwH_rQ-ttM_hRdKlf-klXnG7s2CZIf6pDC4QPawdC79bU5Ja_RkAGS7Yu_',
 };
