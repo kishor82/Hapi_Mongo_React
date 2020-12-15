@@ -25,8 +25,10 @@ import wrapError from './utils/wrap_error';
         if (response && 'isBoom' in response && !response.isBoom) {
           return h.continue;
         }
-
-        if (response && 'isBoom' in response && response.output.statusCode === 404) {
+        /**
+         * Redirect to index.html if requested path from from frontend doesn't exist.
+         */
+        if (response && 'isBoom' in response && response.output.statusCode === 404 && response.data?.path) {
           return h.file('index.html');
         }
         return h.continue;

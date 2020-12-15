@@ -8,6 +8,7 @@ import {
   registerUserAction,
   updateUserProfileAction,
   addOrderItemsAction,
+  getOrderByIdAction,
 } from './controllers';
 import {
   API_ROUTE_GREETING,
@@ -15,9 +16,10 @@ import {
   API_ROUTE_LOGIN,
   API_ROUTE_USER_PROFILE,
   API_ROUTE_REGISTER,
-  API_ROUTE_ADD_ORDER_ITEMS,
+  API_ROUTE_ORDER,
 } from './common/constants';
 import Joi from 'joi';
+import { getOrderById } from './use_cases';
 export const routes = (server: Server) => {
   server.route([
     {
@@ -115,7 +117,7 @@ export const routes = (server: Server) => {
     },
     {
       method: 'POST',
-      path: `${API_ROUTE_ADD_ORDER_ITEMS}`,
+      path: `${API_ROUTE_ORDER}`,
       handler: addOrderItemsAction,
       options: {
         description: 'Add order items.',
@@ -147,6 +149,20 @@ export const routes = (server: Server) => {
             taxPrice: Joi.number().required(),
             shippingPrice: Joi.number().required(),
             totalPrice: Joi.number().required(),
+          }),
+        },
+      },
+    },
+    {
+      method: 'GET',
+      path: `${API_ROUTE_ORDER}/{id}`,
+      handler: getOrderByIdAction,
+      options: {
+        description: 'Get single order by id.',
+        tags: ['api'],
+        validate: {
+          params: Joi.object({
+            id: Joi.string().required(),
           }),
         },
       },

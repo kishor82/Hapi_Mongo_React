@@ -12,4 +12,5 @@ export interface UserCollection {
 
 export interface OrderCollection {
   createNewOrder: ({ orderData }: { orderData: any }) => Promise<any>;
+  getOrderById: ({ _id }: { _id: string }) => Promise<any>;
 }
