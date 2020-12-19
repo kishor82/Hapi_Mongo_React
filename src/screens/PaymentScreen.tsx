@@ -50,7 +50,6 @@ const PaymentScreen: FunctionComponent<Props> = ({ history }) => {
               id="Stripe"
               name="paymentMethod"
               value="Stripe"
-              checked
               onChange={(e: React.FormEvent<HTMLInputElement>) =>
                 setPaymentMethod((e.target as HTMLInputElement).value)
               }
