@@ -2,10 +2,11 @@ import React, { useEffect, FunctionComponent } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Table, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import swal from 'sweetalert';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { listUsers } from '../actions/userActions';
-import { useHistory } from 'react-router-dom';
+import { listUsers, deleteUser } from '../actions/userActions';
 
 interface Props {}
 
@@ -16,6 +17,7 @@ const UserListScreen: FunctionComponent<Props> = () => {
   const { loading, error, users } = useSelector((state: any) => state.userList);
 
   const { userInfo } = useSelector((state: any) => state.userLogin);
+  const { success: successDelete } = useSelector((state: any) => state.userDelete);
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -23,9 +25,24 @@ const UserListScreen: FunctionComponent<Props> = () => {
     } else {
       history.push('/login');
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, successDelete]);
 
-  const deleteHandler = (id: string) => {};
+  const deleteHandler = (id: string) => {
+    swal({
+      title: 'Are you sure?',
+      text: 'Once deleted, you will not be able to recover this user!',
+      icon: 'warning',
+      buttons: [true, true],
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        dispatch(deleteUser(id));
+        swal('User has been deleted!', {
+          icon: 'success',
+        });
+      }
+    });
+  };
   return (
     <>
       <h1>Users</h1>
