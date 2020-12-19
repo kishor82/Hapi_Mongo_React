@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import { Container } from 'react-bootstrap';
 import './App.css';
 
-function App() {
-  const [greetMessage, setGreetMessage] = useState('');
-  useEffect(() => {
-    (async () => {
-      const res: any = await(await fetch('/api/v1/greet')).json();
-      setGreetMessage(res.data?.message);
-    })();
-  }, []);
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>{greetMessage ? greetMessage : 'Hello'!}</h1>
-      </header>
-    </div>
+    <>
+      <Header />
+      <main className="py-3">
+        <Container>
+          <h1>Welcome </h1>
+        </Container>
+      </main>
+      <Footer />
+    </>
   );
-}
+};
 
 export default App;
