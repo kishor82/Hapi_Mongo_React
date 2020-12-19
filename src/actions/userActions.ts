@@ -93,7 +93,7 @@ export const getUserDetails = (id: any) => async (dispatch: any, getState: any) 
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${userInfo?.token}`,
       },
     };
 
@@ -124,7 +124,7 @@ export const updateUserProfile = (user: any) => async (dispatch: any, getState: 
     const config = {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${userInfo?.token}`,
       },
     };
 
