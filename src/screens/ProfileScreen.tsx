@@ -6,11 +6,10 @@ import Loader from '../components/Loader';
 import { getUserDetails, updateUserProfile } from '../actions/userActions';
 
 interface Props {
-  location: any;
   history: any;
 }
 
-const ProfileScreen: FunctionComponent<Props> = ({ location, history }) => {
+const ProfileScreen: FunctionComponent<Props> = ({  history }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState(undefined);
   const [name, setName] = useState('');
@@ -27,7 +26,7 @@ const ProfileScreen: FunctionComponent<Props> = ({ location, history }) => {
     if (!userInfo) {
       history.push('/login');
     } else {
-      if (!user.name) {
+      if (!user?.name) {
         dispatch(getUserDetails('profile'));
       } else {
         setName(user.name);

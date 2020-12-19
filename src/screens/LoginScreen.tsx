@@ -20,7 +20,7 @@ const LoginScreen: FunctionComponent<Props> = ({ location, history }) => {
 
   const { loading, error, userInfo } = useSelector((state: any) => state.userLogin);
 
-  const redirect = location.search ? location.search.split('=') : '/';
+  const redirect = location.search ? location.search.split('=')[1] : '/';
 
   useEffect(() => {
     if (userInfo) {

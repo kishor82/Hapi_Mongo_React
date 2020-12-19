@@ -50,7 +50,7 @@ const RegisterScreen: FunctionComponent<Props> = ({ location, history }) => {
         <Form.Group controlId="name">
           <Form.Label>name Address</Form.Label>
           <Form.Control
-            type="name"
+            type="text"
             placeholder="Enter name"
             onChange={(e: React.ChangeEvent<any>) => setName(e.target.value)}
           ></Form.Control>
