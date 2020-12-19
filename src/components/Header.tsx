@@ -3,21 +3,23 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { Nav, Navbar, Container, NavDropdown } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../actions/userActions';
+import { useHistory } from 'react-router-dom';
 
 interface Props {}
 
 const Header: FunctionComponent<Props> = () => {
-
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { userInfo } = useSelector((state: any) => state.userLogin);
 
   const logoutHandler = () => {
     dispatch(logout());
+    history.push('/');
   };
   return (
     <header>
-      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect >
+      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand>E-commerce</Navbar.Brand>
@@ -43,6 +45,19 @@ const Header: FunctionComponent<Props> = () => {
                     <i className="fas fa-user"></i> Sign In
                   </Nav.Link>
                 </LinkContainer>
+              )}
+              {userInfo && userInfo.isAdmin && (
+                <NavDropdown title="Admin" id="adminmenu">
+                  <LinkContainer to="/admin/userlist">
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/productlist">
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/orderlist">
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>
