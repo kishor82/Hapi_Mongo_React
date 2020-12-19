@@ -19,7 +19,7 @@ interface Product {
   numReviews: number;
 }
 
-const HomeScreen: FunctionComponent<any> = (props) => {
+const HomeScreen: FunctionComponent<any> = () => {
   const dispatch = useDispatch();
 
   const productList: any = useSelector((state: any) => state.productList);
