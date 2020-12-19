@@ -26,7 +26,6 @@ const RegisterScreen: FunctionComponent<Props> = ({ location, history }) => {
   const redirect = location.search ? location.search.split('=') : '/';
 
   useEffect(() => {
-    console.log({ userInfo });
     if (userInfo) {
       history.push(redirect);
     }
@@ -90,7 +89,7 @@ const RegisterScreen: FunctionComponent<Props> = ({ location, history }) => {
 
       <Row className="py-3">
         <Col>
-          Have an account? <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>Register</Link>
+          Have an account? <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>Login</Link>
         </Col>
       </Row>
     </FormContainer>
