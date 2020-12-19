@@ -11,12 +11,13 @@ import {
   getOrderByIdAction,
   updateOrderToPaidAction,
   getUserOrdersAction,
+  getAllUserAction,
 } from './controllers';
 import {
   API_ROUTE_GREETING,
   API_ROUTE_GET_PRODUCTS,
   API_ROUTE_LOGIN,
-  API_ROUTE_USER_PROFILE,
+  API_ROUTE_USERS,
   API_ROUTE_REGISTER,
   API_ROUTE_ORDER,
   API_ROUTE_GET_PAYAL_CLIENT_ID,
@@ -108,7 +109,7 @@ export const routes = (server: Server, config: any) => {
     },
     {
       method: 'GET',
-      path: `${API_ROUTE_USER_PROFILE}`,
+      path: `${API_ROUTE_USERS}/profile`,
       handler: getUserProfileAction,
       options: {
         description: 'Get logged in user profile.',
@@ -117,7 +118,7 @@ export const routes = (server: Server, config: any) => {
     },
     {
       method: 'PUT',
-      path: `${API_ROUTE_USER_PROFILE}`,
+      path: `${API_ROUTE_USERS}/profile`,
       handler: updateUserProfileAction,
       options: {
         description: 'Update use profile.',
@@ -209,6 +210,19 @@ export const routes = (server: Server, config: any) => {
       handler: getUserOrdersAction,
       options: {
         description: 'Get logged in user orders.',
+        tags: ['api'],
+      },
+    },
+    {
+      method: 'GET',
+      path: `${API_ROUTE_USERS}`,
+      handler: getAllUserAction,
+      options: {
+        auth: {
+          strategy: 'jwt',
+          scope: 'admin',
+        },
+        description: 'Get all users.',
         tags: ['api'],
       },
     },

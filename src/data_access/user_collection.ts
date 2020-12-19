@@ -11,7 +11,7 @@ const makeUserCollection = ({ createMongoConnectoin, userModel }: any) => {
   const getUserById = async ({ _id }: { _id: string }) => {
     try {
       const dbConnection = await createMongoConnectoin();
-      return userModel({ dbConnection }).findById(_id).select('-password');
+      return userModel({ dbConnection }).findById(_id).select('-password -__v');
     } catch (err) {
       throw err;
     }
