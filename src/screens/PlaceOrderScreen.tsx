@@ -1,25 +1,50 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Row, Col, ListGroup, Image, Card } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
+import { createOrder } from '../actions/orderActions';
 
-interface Props {}
+interface Props {
+  history: any;
+}
 
 const addDecimals = (num: number) => {
   return (Math.round(num * 100) / 100).toFixed(2);
 };
 
-const PlaceOrderScreen: FunctionComponent<Props> = () => {
+const PlaceOrderScreen: FunctionComponent<Props> = ({ history }) => {
   const cart = useSelector((state: any) => state.cart);
+  const dispatch = useDispatch();
 
   cart.itemsPrice = addDecimals(cart.cartItems.reduce((acc: any, item: any) => acc + item.price * item.qty, 0));
   cart.shippingPrice = addDecimals(cart.itemsPrice > 100 ? 0 : 100);
   cart.taxPrice = addDecimals(Number((0.15 * cart.itemsPrice).toFixed(2)));
   cart.totalPrice = addDecimals(Number(cart.itemsPrice) + Number(cart.shippingPrice) + Number(cart.taxPrice));
 
-  const placeOrderHandler = () => {};
+  const { order, success, error } = useSelector((state: any) => state.orderCreate);
+
+  useEffect(() => {
+    if (success) {
+      history.push(`/order/${order._id}`);
+    }
+    //eslint-disable-next-line
+  }, [history, success]);
+
+  const placeOrderHandler = () => {
+    dispatch(
+      createOrder({
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemsPrice: cart.itemsPrice,
+        shippingPrice: cart.shippingPrice,
+        taxPrice: cart.taxPrice,
+        totalPrice: cart.totalPrice,
+      })
+    );
+  };
 
   return (
     <>
@@ -99,6 +124,11 @@ const PlaceOrderScreen: FunctionComponent<Props> = () => {
                   <Col>${cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
+              {error && (
+                <ListGroup.Item>
+                  <Message variant="danger">{error}</Message>
+                </ListGroup.Item>
+              )}
               <ListGroup.Item>
                 <Button type="Button" className="btn-block" disabled={!cart.cartItems} onClick={placeOrderHandler}>
                   Place Order
