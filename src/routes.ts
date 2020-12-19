@@ -12,6 +12,7 @@ import {
   updateOrderToPaidAction,
   getUserOrdersAction,
   getAllUserAction,
+  deleteUserAction,
 } from './controllers';
 import {
   API_ROUTE_GREETING,
@@ -224,6 +225,24 @@ export const routes = (server: Server, config: any) => {
         },
         description: 'Get all users.',
         tags: ['api'],
+      },
+    },
+    {
+      method: 'DELETE',
+      path: `${API_ROUTE_USERS}/{id}`,
+      handler: deleteUserAction,
+      options: {
+        auth: {
+          strategy: 'jwt',
+          scope: 'admin',
+        },
+        description: 'Delete user by id.',
+        tags: ['api'],
+        validate: {
+          params: Joi.object({
+            id: Joi.string().required(),
+          }),
+        },
       },
     },
   ]);

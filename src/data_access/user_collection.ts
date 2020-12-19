@@ -35,7 +35,7 @@ const makeUserCollection = ({ createMongoConnectoin, userModel }: any) => {
     }
   };
 
-  async function updateUserById({ _id, dataToUpdate }: any) {
+  const updateUserById = async ({ _id, dataToUpdate }: any) => {
     try {
       const dbConnection = await createMongoConnectoin();
       return await userModel({ dbConnection })
@@ -51,14 +51,23 @@ const makeUserCollection = ({ createMongoConnectoin, userModel }: any) => {
     } catch (err) {
       throw err;
     }
-  }
+  };
 
+  const deleteUserById = async ({ _id }: any) => {
+    try {
+      const dbConnection = await createMongoConnectoin();
+      return await userModel({ dbConnection }).findByIdAndDelete(_id);
+    } catch (err) {
+      throw err;
+    }
+  };
   return Object.freeze({
     getAllusers,
     getUserById,
     getUserByEmail,
     createNewUser,
     updateUserById,
+    deleteUserById
   });
 };
 
