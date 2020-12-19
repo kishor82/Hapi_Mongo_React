@@ -10,6 +10,7 @@ import {
   addOrderItemsAction,
   getOrderByIdAction,
   updateOrderToPaidAction,
+  getUserOrdersAction,
 } from './controllers';
 import {
   API_ROUTE_GREETING,
@@ -200,6 +201,15 @@ export const routes = (server: Server, config: any) => {
             payer: Joi.object().required(),
           }).unknown(true),
         },
+      },
+    },
+    {
+      method: 'GET',
+      path: `${API_ROUTE_ORDER}/myorders`,
+      handler: getUserOrdersAction,
+      options: {
+        description: 'Get logged in user orders.',
+        tags: ['api'],
       },
     },
   ]);

@@ -7,6 +7,7 @@ import {
   createNewUser,
   addOrderItems,
   getOrderById,
+  findOrderByUserId,
 } from '../use_cases';
 
 import makeGreetWelcomeAction from './greet_welcome';
@@ -19,6 +20,7 @@ import makeUpdateUserProfileAction from './update_user_profile';
 import makeAddOrderItemsAction from './add_order_items';
 import makeGetOrderItemsAction from './get_order_by_id';
 import makeUpdateOrderToPaidAction from './update_order_to_paid';
+import makeGetUserOrdersAction from './get_user_orders';
 
 import wrapError from '../utils/wrap_error';
 import generateCustomError from '../utils/custom_error';
@@ -32,6 +34,7 @@ const getUserProfileAction = makeGetUserProfileAction({ getUserById, generateCus
 const addOrderItemsAction = makeAddOrderItemsAction({ addOrderItems, wrapError });
 const getOrderByIdAction = makeGetOrderItemsAction({ getOrderById, generateCustomError, wrapError });
 const updateOrderToPaidAction = makeUpdateOrderToPaidAction({ getOrderById, generateCustomError, wrapError });
+const getUserOrdersAction = makeGetUserOrdersAction({ findOrderByUserId, wrapError });
 
 const updateUserProfileAction = makeUpdateUserProfileAction({
   getUserById,
@@ -58,4 +61,5 @@ export {
   addOrderItemsAction,
   getOrderByIdAction,
   updateOrderToPaidAction,
+  getUserOrdersAction,
 };

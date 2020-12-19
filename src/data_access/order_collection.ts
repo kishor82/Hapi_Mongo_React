@@ -40,10 +40,20 @@ const makeOrderCollection = ({ createMongoConnectoin, orderModel, userModel }: a
     }
   }
 
+  async function findOrderByUserId({ userId }: any) {
+    try {
+      const dbConnection = await createMongoConnectoin();
+      return await orderModel({ dbConnection }).find({ user: userId });
+    } catch (err) {
+      throw err;
+    }
+  }
+
   return Object.freeze({
     createNewOrder,
     getOrderById,
-    updateOrderById
+    updateOrderById,
+    findOrderByUserId,
   });
 };
 

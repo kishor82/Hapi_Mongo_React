@@ -9,6 +9,7 @@ import makeCreateNewUser from './create_new_user';
 import makeUpdateUserById from './update_user_by_id';
 import makeAddOrderItems from './add_order_items';
 import makeGetOrderById from './get_order_by_id';
+import makeFindOrderByUserId from './find_order_by_user_id';
 
 const greetWelcome = makeGreetWelcome();
 const listProducts = makeListProducts({ productCollection });
@@ -19,6 +20,7 @@ const createNewUser = makeCreateNewUser({ userCollection });
 const updateUserById = makeUpdateUserById({ userCollection });
 const addOrderItems = makeAddOrderItems({ orderCollection });
 const getOrderById = makeGetOrderById({ orderCollection });
+const findOrderByUserId = makeFindOrderByUserId({ orderCollection });
 
 export {
   greetWelcome,
@@ -30,4 +32,5 @@ export {
   updateUserById,
   addOrderItems,
   getOrderById,
+  findOrderByUserId
 };
