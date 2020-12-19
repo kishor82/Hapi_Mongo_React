@@ -1,21 +1,49 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 import Product from '../components/Product';
-import products from '../products';
+import Message from '../components/Message';
+import Loader from '../components/Loader';
+import { listProducts } from '../actions/productActions';
 
-interface Props {}
+interface Product {
+  _id: string;
+  name: string;
+  image: string;
+  description: string;
+  brand: string;
+  category: string;
+  price: number;
+  countInStock: number;
+  rating: number;
+  numReviews: number;
+}
 
-const HomeScreen = (props: Props) => {
+const HomeScreen = (props: Product) => {
+  const dispatch = useDispatch();
+
+  const productList: any = useSelector((state: any) => state.productList);
+  const { error, loading, products } = productList;
+
+  useEffect(() => {
+    dispatch(listProducts());
+  }, [dispatch]);
   return (
     <>
       <h1>Latest Products</h1>
-      <Row>
-        {products.map((product) => (
-          <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-            <Product product={product} />
-          </Col>
-        ))}
-      </Row>
+      {loading ? (
+        <Loader></Loader>
+      ) : error ? (
+        <Message variant='danger'>{error}</Message>
+      ) : (
+        <Row>
+          {products.map((product: any) => (
+            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+              <Product product={product} />
+            </Col>
+          ))}
+        </Row>
+      )}
     </>
   );
 };
