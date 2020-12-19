@@ -13,6 +13,8 @@ import {
   getUserOrdersAction,
   getAllUserAction,
   deleteUserAction,
+  getUserByIdAction,
+  updateUserByIdAction,
 } from './controllers';
 import {
   API_ROUTE_GREETING,
@@ -122,7 +124,7 @@ export const routes = (server: Server, config: any) => {
       path: `${API_ROUTE_USERS}/profile`,
       handler: updateUserProfileAction,
       options: {
-        description: 'Update use profile.',
+        description: 'Update user profile.',
         tags: ['api'],
         validate: {
           payload: Joi.object({
@@ -241,6 +243,43 @@ export const routes = (server: Server, config: any) => {
         validate: {
           params: Joi.object({
             id: Joi.string().required(),
+          }),
+        },
+      },
+    },
+    {
+      method: 'GET',
+      path: `${API_ROUTE_USERS}/{id}`,
+      handler: getUserByIdAction,
+      options: {
+        auth: {
+          strategy: 'jwt',
+          scope: 'admin',
+        },
+        description: 'Get user by id.',
+        tags: ['api'],
+        validate: {
+          params: Joi.object({
+            id: Joi.string().required(),
+          }),
+        },
+      },
+    },
+    {
+      method: 'PUT',
+      path: `${API_ROUTE_USERS}/{id}`,
+      handler: updateUserByIdAction,
+      options: {
+        description: 'Update user by id.',
+        tags: ['api'],
+        validate: {
+          params: Joi.object({
+            id: Joi.string().required(),
+          }),
+          payload: Joi.object({
+            name: Joi.string(),
+            email: Joi.string().email(),
+            isAdmin: Joi.boolean(),
           }),
         },
       },

@@ -2,7 +2,7 @@ import { Request } from '@hapi/hapi';
 export default ({ getUserById, generateCustomError, wrapError }: any) => {
   return async (request: Request) => {
     try {
-      const { _id } = request.auth.credentials;
+      const { id: _id } = request.params;
       const user = await getUserById({ _id });
       if (!user) {
         throw generateCustomError('User not found', 404);

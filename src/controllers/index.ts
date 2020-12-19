@@ -10,6 +10,7 @@ import {
   findOrderByUserId,
   getAllUsers,
   deleteUserById,
+  updateUserById,
 } from '../use_cases';
 
 import makeGreetWelcomeAction from './greet_welcome';
@@ -25,6 +26,8 @@ import makeUpdateOrderToPaidAction from './update_order_to_paid';
 import makeGetUserOrdersAction from './get_user_orders';
 import makeGetAllUserAction from './get_all_users';
 import makeDeleteUserAction from './delete_user';
+import makeGetUserByIdAction from './get_user_by_id';
+import makeUpdateUserByIdAction from './update_user_by_id';
 
 import wrapError from '../utils/wrap_error';
 import generateCustomError from '../utils/custom_error';
@@ -41,7 +44,8 @@ const updateOrderToPaidAction = makeUpdateOrderToPaidAction({ getOrderById, gene
 const getUserOrdersAction = makeGetUserOrdersAction({ findOrderByUserId, wrapError });
 const getAllUserAction = makeGetAllUserAction({ getAllUsers, wrapError });
 const deleteUserAction = makeDeleteUserAction({ deleteUserById, generateCustomError, wrapError });
-
+const getUserByIdAction = makeGetUserByIdAction({ getUserById, generateCustomError, wrapError });
+const updateUserByIdAction = makeUpdateUserByIdAction({ updateUserById, generateCustomError, wrapError });
 const updateUserProfileAction = makeUpdateUserProfileAction({
   getUserById,
   generateCustomError,
@@ -71,4 +75,6 @@ export {
   getUserOrdersAction,
   getAllUserAction,
   deleteUserAction,
+  getUserByIdAction,
+  updateUserByIdAction,
 };

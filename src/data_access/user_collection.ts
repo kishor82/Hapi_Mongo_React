@@ -38,16 +38,21 @@ const makeUserCollection = ({ createMongoConnectoin, userModel }: any) => {
   const updateUserById = async ({ _id, dataToUpdate }: any) => {
     try {
       const dbConnection = await createMongoConnectoin();
+      /**
+       * Find and update document after successful operation return updated document.
+       * Exclude password and __v fields from output.
+       */
       return await userModel({ dbConnection })
-        .updateOne(
+        .findOneAndUpdate(
           { _id },
           {
             $set: {
               ...dataToUpdate,
             },
-          }
+          },
+          { new: true }
         )
-        .lean();
+        .lean().select('-password -__v');
     } catch (err) {
       throw err;
     }
@@ -67,7 +72,7 @@ const makeUserCollection = ({ createMongoConnectoin, userModel }: any) => {
     getUserByEmail,
     createNewUser,
     updateUserById,
-    deleteUserById
+    deleteUserById,
   });
 };
 
