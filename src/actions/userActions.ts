@@ -12,8 +12,10 @@ import {
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
   USER_UPDATE_PROFILE_SUCCESS,
+  USER_DETAILS_RESET,
 } from '../constants/userConstants';
 import axios from 'axios';
+import { ORDER_LIST_MY_RESET } from '../constants/orderConstants';
 
 export const login = (email: string, password: string) => async (dispatch: any) => {
   try {
@@ -46,6 +48,8 @@ export const login = (email: string, password: string) => async (dispatch: any) 
 export const logout = () => (dispatch: any) => {
   localStorage.removeItem('userInfo');
   dispatch({ type: USER_LOGOUT });
+  dispatch({ type: USER_DETAILS_RESET });
+  dispatch({ type: ORDER_LIST_MY_RESET });
 };
 
 export const register = (name: string, email: string, password: string) => async (dispatch: any) => {
@@ -53,7 +57,6 @@ export const register = (name: string, email: string, password: string) => async
     dispatch({
       type: USER_REGISTER_REQUEST,
     });
-
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -128,7 +131,7 @@ export const updateUserProfile = (user: any) => async (dispatch: any, getState: 
       },
     };
 
-    const { data } = await axios.put(`/api/v1/users/profile`,user, config);
+    const { data } = await axios.put(`/api/v1/users/profile`, user, config);
 
     dispatch({
       type: USER_UPDATE_PROFILE_SUCCESS,

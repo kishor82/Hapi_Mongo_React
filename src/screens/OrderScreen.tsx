@@ -29,6 +29,14 @@ const OrderScreen: FunctionComponent<Props> = ({ match }) => {
   }
 
   useEffect(() => {
+    /**
+     * get order initially on every render'
+     */
+    dispatch(getOrderDetails(orderId));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     const addPayPalScript = async () => {
       const { data: clientId } = await axios.get('/api/v1/config/paypal');
       const script = document.createElement('script');
@@ -42,7 +50,6 @@ const OrderScreen: FunctionComponent<Props> = ({ match }) => {
     };
     if (!order || successPay) {
       dispatch({ type: ORDER_PAY_RESET });
-      dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       if (!(window as any).paypal) {
         addPayPalScript();
