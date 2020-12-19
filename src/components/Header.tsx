@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { Nav, Navbar, Container } from 'react-bootstrap';
 
 interface Props {}
 
-const Header = (props: Props) => {
+const Header: FunctionComponent<Props> = (props) => {
   return (
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>

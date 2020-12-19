@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import Rating from './Rating';
@@ -6,7 +6,7 @@ interface Props {
   product: any;
 }
 
-const Product = ({ product }: Props) => {
+const Product: FunctionComponent<Props> = ({ product }) => {
   return (
     <Card className="my-3 p-3 rounded">
       <Link to={`/product/${product._id}`}>

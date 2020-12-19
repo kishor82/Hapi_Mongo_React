@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { Alert } from 'react-bootstrap';
 
 interface Props {
-  variant: string;
+  variant?: string;
   children: any;
 }
 
-const Message = ({ variant, children }: Props) => {
+const Message: FunctionComponent<Props> = ({ variant, children }) => {
   return <Alert variant={variant}>{children}</Alert>;
 };
 

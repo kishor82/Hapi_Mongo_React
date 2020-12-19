@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 interface Props {}
 
-const Footer = (props: Props) => {
+const Footer: FunctionComponent<Props> = (props) => {
   return (
     <footer>
       <Container>

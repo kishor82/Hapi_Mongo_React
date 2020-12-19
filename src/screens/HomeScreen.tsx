@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 import Product from '../components/Product';
@@ -19,7 +19,7 @@ interface Product {
   numReviews: number;
 }
 
-const HomeScreen = (props: Product) => {
+const HomeScreen: FunctionComponent<any> = (props) => {
   const dispatch = useDispatch();
 
   const productList: any = useSelector((state: any) => state.productList);
@@ -34,10 +34,10 @@ const HomeScreen = (props: Product) => {
       {loading ? (
         <Loader></Loader>
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
       ) : (
         <Row>
-          {products.map((product: any) => (
+          {products.map((product: Product) => (
             <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
               <Product product={product} />
             </Col>

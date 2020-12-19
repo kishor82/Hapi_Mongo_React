@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
 interface Props {
   value: number;
@@ -6,7 +6,7 @@ interface Props {
   color?: string;
 }
 
-const Rating = ({ value, text, color }: Props) => {
+const Rating: FunctionComponent<Props> = ({ value, text, color }) => {
   return (
     <div className="rating">
       <span>
