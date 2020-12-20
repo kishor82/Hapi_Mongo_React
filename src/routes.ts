@@ -16,6 +16,8 @@ import {
   getUserByIdAction,
   updateUserByIdAction,
   deleteProductAction,
+  updateProductByIdAction,
+  addProductAction,
 } from './controllers';
 import {
   API_ROUTE_GREETING,
@@ -301,6 +303,47 @@ export const routes = (server: Server, config: any) => {
             id: Joi.string().required(),
           }),
         },
+      },
+    },
+    {
+      method: 'PUT',
+      path: `${API_ROUTE_PRODUCTS}/{id}`,
+      handler: updateProductByIdAction,
+      options: {
+        auth: {
+          strategy: 'jwt',
+          scope: 'admin',
+        },
+        description: 'Update product by id.',
+        tags: ['api'],
+        validate: {
+          params: Joi.object({
+            id: Joi.string().required(),
+          }),
+          payload: Joi.object({
+            name: Joi.string(),
+            price: Joi.number(),
+            image: Joi.string(),
+            brand: Joi.string(),
+            category: Joi.string(),
+            countInStock: Joi.number(),
+            numReviews: Joi.number(),
+            description: Joi.string(),
+          }).required(),
+        },
+      },
+    },
+    {
+      method: 'POST',
+      path: `${API_ROUTE_PRODUCTS}`,
+      handler: addProductAction,
+      options: {
+        auth: {
+          strategy: 'jwt',
+          scope: 'admin',
+        },
+        description: 'Add a new product.',
+        tags: ['api']
       },
     },
   ]);

@@ -1,4 +1,13 @@
 const makeProductCollection = ({ createMongoConnectoin, productModel }: any) => {
+  const addNewProduct = async ({ productData }: any) => {
+    try {
+      const dbConnection = await createMongoConnectoin();
+      return productModel({ dbConnection }).create({ ...productData });
+    } catch (err) {
+      throw err;
+    }
+  };
+
   const getAllProducts = async () => {
     try {
       const dbConnection = await createMongoConnectoin();
@@ -53,6 +62,7 @@ const makeProductCollection = ({ createMongoConnectoin, productModel }: any) => 
     getProductById,
     deleteProductById,
     updateProductById,
+    addNewProduct,
   });
 };
 
