@@ -11,6 +11,7 @@ import {
   getAllUsers,
   deleteUserById,
   updateUserById,
+  deleteProductById,
 } from '../use_cases';
 
 import makeGreetWelcomeAction from './greet_welcome';
@@ -28,6 +29,7 @@ import makeGetAllUserAction from './get_all_users';
 import makeDeleteUserAction from './delete_user';
 import makeGetUserByIdAction from './get_user_by_id';
 import makeUpdateUserByIdAction from './update_user_by_id';
+import makeDeleteProductAction from './delete_product';
 
 import wrapError from '../utils/wrap_error';
 import generateCustomError from '../utils/custom_error';
@@ -46,6 +48,8 @@ const getAllUserAction = makeGetAllUserAction({ getAllUsers, wrapError });
 const deleteUserAction = makeDeleteUserAction({ deleteUserById, generateCustomError, wrapError });
 const getUserByIdAction = makeGetUserByIdAction({ getUserById, generateCustomError, wrapError });
 const updateUserByIdAction = makeUpdateUserByIdAction({ updateUserById, generateCustomError, wrapError });
+const deleteProductAction = makeDeleteProductAction({ deleteProductById, generateCustomError, wrapError });
+
 const updateUserProfileAction = makeUpdateUserProfileAction({
   getUserById,
   generateCustomError,
@@ -77,4 +81,5 @@ export {
   deleteUserAction,
   getUserByIdAction,
   updateUserByIdAction,
+  deleteProductAction,
 };

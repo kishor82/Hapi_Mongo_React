@@ -12,6 +12,7 @@ import makeGetOrderById from './get_order_by_id';
 import makeFindOrderByUserId from './find_order_by_user_id';
 import makeGetAllUsers from './get_all_users';
 import makeDeleteUserById from './delete_user_by_id';
+import makeDeleteProductById from './delete_product_by_id';
 
 const greetWelcome = makeGreetWelcome();
 const listProducts = makeListProducts({ productCollection });
@@ -25,6 +26,7 @@ const getOrderById = makeGetOrderById({ orderCollection });
 const findOrderByUserId = makeFindOrderByUserId({ orderCollection });
 const getAllUsers = makeGetAllUsers({ userCollection });
 const deleteUserById = makeDeleteUserById({ userCollection });
+const deleteProductById = makeDeleteProductById({ productCollection });
 
 export {
   greetWelcome,
@@ -39,4 +41,5 @@ export {
   findOrderByUserId,
   getAllUsers,
   deleteUserById,
+  deleteProductById
 };

@@ -15,10 +15,11 @@ import {
   deleteUserAction,
   getUserByIdAction,
   updateUserByIdAction,
+  deleteProductAction,
 } from './controllers';
 import {
   API_ROUTE_GREETING,
-  API_ROUTE_GET_PRODUCTS,
+  API_ROUTE_PRODUCTS,
   API_ROUTE_LOGIN,
   API_ROUTE_USERS,
   API_ROUTE_REGISTER,
@@ -54,7 +55,7 @@ export const routes = (server: Server, config: any) => {
     },
     {
       method: 'GET',
-      path: `${API_ROUTE_GET_PRODUCTS}`,
+      path: `${API_ROUTE_PRODUCTS}`,
       handler: listProductsAction,
       options: {
         auth: false,
@@ -64,7 +65,7 @@ export const routes = (server: Server, config: any) => {
     },
     {
       method: 'GET',
-      path: `${API_ROUTE_GET_PRODUCTS}/{id}`,
+      path: `${API_ROUTE_PRODUCTS}/{id}`,
       handler: getProductAction,
       options: {
         auth: false,
@@ -280,6 +281,24 @@ export const routes = (server: Server, config: any) => {
             name: Joi.string(),
             email: Joi.string().email(),
             isAdmin: Joi.boolean(),
+          }),
+        },
+      },
+    },
+    {
+      method: 'DELETE',
+      path: `${API_ROUTE_PRODUCTS}/{id}`,
+      handler: deleteProductAction,
+      options: {
+        auth: {
+          strategy: 'jwt',
+          scope: 'admin',
+        },
+        description: 'Delete product by id.',
+        tags: ['api'],
+        validate: {
+          params: Joi.object({
+            id: Joi.string().required(),
           }),
         },
       },
