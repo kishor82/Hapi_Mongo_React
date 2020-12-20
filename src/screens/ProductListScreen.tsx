@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import swal from 'sweetalert';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
-import { listProducts } from '../actions/productActions';
+import { listProducts, deleteProduct } from '../actions/productActions';
 
 interface Props {}
 
@@ -16,6 +16,10 @@ const ProductListScreen: FunctionComponent<Props> = () => {
 
   const { loading, error, products } = useSelector((state: any) => state.productList);
 
+  const { loading: loadingDelete, error: errorDelete, success: successDelete } = useSelector(
+    (state: any) => state.productDelete
+  );
+
   const { userInfo } = useSelector((state: any) => state.userLogin);
 
   useEffect(() => {
@@ -24,7 +28,7 @@ const ProductListScreen: FunctionComponent<Props> = () => {
     } else {
       history.push('/login');
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, successDelete]);
 
   const deleteHandler = (id: string) => {
     swal({
@@ -35,7 +39,7 @@ const ProductListScreen: FunctionComponent<Props> = () => {
       dangerMode: true,
     }).then((willDelete) => {
       if (willDelete) {
-        // dispatch(deleteProduct(id));
+        dispatch(deleteProduct(id));
         swal('Product has been deleted!', {
           icon: 'success',
         });
@@ -56,6 +60,8 @@ const ProductListScreen: FunctionComponent<Props> = () => {
           </Button>
         </Col>
       </Row>
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
