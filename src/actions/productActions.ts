@@ -8,6 +8,9 @@ import {
   PRODUCT_DELETE_SUCCESS,
   PRODUCT_DELETE_FAIL,
   PRODUCT_DELETE_REQUEST,
+  PRODUCT_CREATE_FAIL,
+  PRODUCT_CREATE_REQUEST,
+  PRODUCT_CREATE_SUCCESS,
 } from '../constants/productConstants';
 import axios from 'axios';
 
@@ -63,6 +66,35 @@ export const deleteProduct = (id: string) => async (dispatch: any, getState: any
   } catch (err) {
     dispatch({
       type: PRODUCT_DELETE_FAIL,
+      payload: err.response && err.response.data.message ? err.response.data.message : err.message,
+    });
+  }
+};
+
+export const createProduct = () => async (dispatch: any, getState: any) => {
+  try {
+    dispatch({
+      type: PRODUCT_CREATE_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+
+    const { data } = await axios.post(`/api/v1/products`, {}, config);
+    dispatch({
+      type: PRODUCT_CREATE_SUCCESS,
+      payload: data.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_CREATE_FAIL,
       payload: err.response && err.response.data.message ? err.response.data.message : err.message,
     });
   }
