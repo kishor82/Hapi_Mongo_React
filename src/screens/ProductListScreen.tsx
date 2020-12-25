@@ -49,9 +49,6 @@ const ProductListScreen: FunctionComponent<Props> = () => {
     }).then((willDelete) => {
       if (willDelete) {
         dispatch(deleteProduct(id));
-        swal('Product has been deleted!', {
-          icon: 'success',
-        });
       }
     });
   };

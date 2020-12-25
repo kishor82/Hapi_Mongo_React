@@ -16,6 +16,7 @@ import {
   PRODUCT_UPDATE_SUCCESS,
 } from '../constants/productConstants';
 import axios from 'axios';
+import swal from 'sweetalert';
 
 export const listProducts = () => async (dispatch: any) => {
   try {
@@ -62,7 +63,9 @@ export const deleteProduct = (id: string) => async (dispatch: any, getState: any
     };
 
     await axios.delete(`/api/v1/products/${id}`, config);
-
+    swal('Product has been deleted!', {
+      icon: 'success',
+    });
     dispatch({
       type: PRODUCT_DELETE_SUCCESS,
     });
