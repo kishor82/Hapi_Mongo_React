@@ -1,4 +1,5 @@
 import React, { useEffect, useState, FunctionComponent } from 'react';
+import axios from 'axios';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +20,7 @@ const ProductEditScreen: FunctionComponent<Props> = () => {
   const [category, setCategory] = useState('');
   const [countInStock, setCountInStock] = useState(0);
   const [description, setDescription] = useState('');
+  const [uploading, setUploading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -26,6 +28,7 @@ const ProductEditScreen: FunctionComponent<Props> = () => {
   const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = useSelector(
     (state: any) => state.productUpdate
   );
+  const { userInfo } = useSelector((state: any) => state.userLogin);
 
   useEffect(() => {
     if (successUpdate) {
@@ -49,6 +52,26 @@ const ProductEditScreen: FunctionComponent<Props> = () => {
   const submitHandler = (e: React.FormEvent<any>) => {
     e.preventDefault();
     dispatch(updateProduct(productId, { name, price, image, brand, category, countInStock, description }));
+  };
+
+  const uploadFileHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = (e.target.files as FileList)[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    setUploading(true);
+    try {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo?.token}`,
+        },
+      };
+      const { data } = await axios.post('/upload', formData, config);
+      setImage(data);
+      setUploading(false);
+    } catch (err) {
+      setUploading(false);
+    }
   };
 
   return (
@@ -90,8 +113,12 @@ const ProductEditScreen: FunctionComponent<Props> = () => {
                 type="text"
                 placeholder="Enter Image url"
                 value={image}
-                onChange={(e: React.ChangeEvent<any>) => setImage(e.target.value)}
+                onChange={(e: React.ChangeEvent<any>) =>
+                  e.target.value ? setImage(e.target.value) : setImage('/images/sample.png')
+                }
               ></Form.Control>
+              <Form.File id="image-file" label="Choose File" custom onChange={uploadFileHandler}></Form.File>
+              {uploading && <Loader />}
             </Form.Group>
 
             <Form.Group controlId="brand">
