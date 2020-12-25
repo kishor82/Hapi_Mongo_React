@@ -18,6 +18,7 @@ import {
   deleteProductAction,
   updateProductByIdAction,
   addProductAction,
+  getAllOrdersAction,
 } from './controllers';
 import {
   API_ROUTE_GREETING,
@@ -25,7 +26,7 @@ import {
   API_ROUTE_LOGIN,
   API_ROUTE_USERS,
   API_ROUTE_REGISTER,
-  API_ROUTE_ORDER,
+  API_ROUTE_ORDERS,
   API_ROUTE_GET_PAYAL_CLIENT_ID,
 } from './common/constants';
 import Joi from 'joi';
@@ -140,7 +141,7 @@ export const routes = (server: Server, config: any) => {
     },
     {
       method: 'POST',
-      path: `${API_ROUTE_ORDER}`,
+      path: `${API_ROUTE_ORDERS}`,
       handler: addOrderItemsAction,
       options: {
         description: 'Add order items.',
@@ -178,7 +179,7 @@ export const routes = (server: Server, config: any) => {
     },
     {
       method: 'GET',
-      path: `${API_ROUTE_ORDER}/{id}`,
+      path: `${API_ROUTE_ORDERS}/{id}`,
       handler: getOrderByIdAction,
       options: {
         description: 'Get single order by id.',
@@ -192,7 +193,7 @@ export const routes = (server: Server, config: any) => {
     },
     {
       method: 'PUT',
-      path: `${API_ROUTE_ORDER}/{id}/pay`,
+      path: `${API_ROUTE_ORDERS}/{id}/pay`,
       handler: updateOrderToPaidAction,
       options: {
         description: 'Update unpaid order to paid.',
@@ -212,7 +213,7 @@ export const routes = (server: Server, config: any) => {
     },
     {
       method: 'GET',
-      path: `${API_ROUTE_ORDER}/myorders`,
+      path: `${API_ROUTE_ORDERS}/myorders`,
       handler: getUserOrdersAction,
       options: {
         description: 'Get logged in user orders.',
@@ -343,7 +344,20 @@ export const routes = (server: Server, config: any) => {
           scope: 'admin',
         },
         description: 'Add a new product.',
-        tags: ['api']
+        tags: ['api'],
+      },
+    },
+    {
+      method: 'GET',
+      path: `${API_ROUTE_ORDERS}`,
+      handler: getAllOrdersAction,
+      options: {
+        auth: {
+          strategy: 'jwt',
+          scope: 'admin',
+        },
+        description: 'Get all orders.',
+        tags: ['api'],
       },
     },
   ]);

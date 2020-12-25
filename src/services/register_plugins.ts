@@ -75,6 +75,10 @@ export default async (server: Server) => {
     method: 'POST',
     path: '/upload',
     options: {
+      auth: {
+        strategy: 'jwt',
+        scope: 'admin',
+      },
       payload: {
         output: 'stream',
         parse: true,

@@ -1,4 +1,17 @@
 const makeOrderCollection = ({ createMongoConnectoin, orderModel, userModel }: any) => {
+  const getAllorders = async () => {
+    try {
+      const dbConnection = await createMongoConnectoin();
+      /**
+       * Return all orders with user name and id from user collection.
+       * Before that register user model to populate user.
+       */
+      await userModel({ dbConnection });
+      return orderModel({ dbConnection }).find({}).populate('user', 'id name');
+    } catch (err) {
+      throw err;
+    }
+  };
   const createNewOrder = async ({ orderData }: any) => {
     try {
       const dbConnection = await createMongoConnectoin();
@@ -12,7 +25,7 @@ const makeOrderCollection = ({ createMongoConnectoin, orderModel, userModel }: a
     try {
       const dbConnection = await createMongoConnectoin();
       /**
-       * Return order data with usre name and email address from user collection.
+       * Return order data with user name and email address from user collection.
        * Before that register user model to populate user.
        */
       await userModel({ dbConnection });
@@ -54,6 +67,7 @@ const makeOrderCollection = ({ createMongoConnectoin, orderModel, userModel }: a
     getOrderById,
     updateOrderById,
     findOrderByUserId,
+    getAllorders,
   });
 };
 

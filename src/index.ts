@@ -15,8 +15,8 @@ import wrapError from './utils/wrap_error';
   await logging(server, config);
   try {
     createMongoConnectoin(server, config);
-    await registerPlugins(server);
     await registerStrategy(server, config);
+    await registerPlugins(server);
     routes(server,config);
     server.ext({
       type: 'onPreResponse',
