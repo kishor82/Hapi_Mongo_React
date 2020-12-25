@@ -8,7 +8,7 @@ export default ({ addProduct, wrapError }: any) => {
           name: 'Sample name',
           price: 0,
           user: _id,
-          image: '/images/sample.jpg',
+          image: '/images/sample.png',
           brand: 'TBD',
           category: 'TBD',
           countInStock: 0,
