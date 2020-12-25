@@ -19,6 +19,7 @@ import {
   updateProductByIdAction,
   addProductAction,
   getAllOrdersAction,
+  updateOrderToDeliveredAction,
 } from './controllers';
 import {
   API_ROUTE_GREETING,
@@ -358,6 +359,24 @@ export const routes = (server: Server, config: any) => {
         },
         description: 'Get all orders.',
         tags: ['api'],
+      },
+    },
+    {
+      method: 'PUT',
+      path: `${API_ROUTE_ORDERS}/{id}/deliver`,
+      handler: updateOrderToDeliveredAction,
+      options: {
+        auth: {
+          strategy: 'jwt',
+          scope: 'admin',
+        },
+        description: 'Update order to delivered.',
+        tags: ['api'],
+        validate: {
+          params: Joi.object({
+            id: Joi.string().required(),
+          }),
+        },
       },
     },
   ]);

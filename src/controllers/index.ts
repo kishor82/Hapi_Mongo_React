@@ -36,6 +36,7 @@ import makeDeleteProductAction from './delete_product';
 import makeUpdateProductByIdAction from './update_product_by_id';
 import makeAddProductAction from './add_product';
 import makeGetAllOrdersAction from './get_all_orders';
+import makeUpdateOrderToDeliveredAction from './update_order_to_delivered';
 
 import wrapError from '../utils/wrap_error';
 import generateCustomError from '../utils/custom_error';
@@ -58,6 +59,7 @@ const deleteProductAction = makeDeleteProductAction({ deleteProductById, generat
 const updateProductByIdAction = makeUpdateProductByIdAction({ updateProductById, generateCustomError, wrapError });
 const addProductAction = makeAddProductAction({ addProduct, generateCustomError, wrapError });
 const getAllOrdersAction = makeGetAllOrdersAction({ getAllOrders, wrapError });
+const updateOrderToDeliveredAction = makeUpdateOrderToDeliveredAction({ getOrderById, generateCustomError, wrapError });
 const updateUserProfileAction = makeUpdateUserProfileAction({
   getUserById,
   generateCustomError,
@@ -93,4 +95,5 @@ export {
   updateProductByIdAction,
   addProductAction,
   getAllOrdersAction,
+  updateOrderToDeliveredAction,
 };
