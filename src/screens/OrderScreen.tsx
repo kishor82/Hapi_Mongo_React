@@ -64,7 +64,7 @@ const OrderScreen: FunctionComponent<Props> = ({ match }) => {
         setSdkReady(true);
       }
     }
-  }, [orderId, dispatch, successPay, successDeliver, order]);
+  }, [orderId, dispatch, successPay, successDeliver, order, history, userInfo]);
 
   const successPaymentHandler = (paymentResult: any) => {
     dispatch(payOrder(orderId, paymentResult));

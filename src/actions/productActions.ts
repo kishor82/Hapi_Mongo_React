@@ -14,6 +14,9 @@ import {
   PRODUCT_UPDATE_FAIL,
   PRODUCT_UPDATE_REQUEST,
   PRODUCT_UPDATE_SUCCESS,
+  PRODUCT_CREATE_REVIEW_FAIL,
+  PRODUCT_CREATE_REVIEW_REQUEST,
+  PRODUCT_CREATE_REVIEW_SUCCESS,
 } from '../constants/productConstants';
 import axios from 'axios';
 import swal from 'sweetalert';
@@ -131,6 +134,35 @@ export const updateProduct = (id: any, product: any) => async (dispatch: any, ge
   } catch (err) {
     dispatch({
       type: PRODUCT_UPDATE_FAIL,
+      payload: err.response && err.response.data.message ? err.response.data.message : err.message,
+    });
+  }
+};
+
+export const createProductReview = (id: any, review: any) => async (dispatch: any, getState: any) => {
+  try {
+    dispatch({
+      type: PRODUCT_CREATE_REVIEW_REQUEST,
+    });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo?.token}`,
+      },
+    };
+
+    await axios.put(`/api/v1/products/${id}/review`, review, config);
+    dispatch({
+      type: PRODUCT_CREATE_REVIEW_SUCCESS,
+    });
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_CREATE_REVIEW_FAIL,
       payload: err.response && err.response.data.message ? err.response.data.message : err.message,
     });
   }
