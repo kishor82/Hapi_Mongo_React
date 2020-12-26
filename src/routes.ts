@@ -20,6 +20,7 @@ import {
   addProductAction,
   getAllOrdersAction,
   updateOrderToDeliveredAction,
+  createProductReviewAction,
 } from './controllers';
 import {
   API_ROUTE_GREETING,
@@ -304,6 +305,24 @@ export const routes = (server: Server, config: any) => {
           params: Joi.object({
             id: Joi.string().required(),
           }),
+        },
+      },
+    },
+    {
+      method: 'PUT',
+      path: `${API_ROUTE_PRODUCTS}/{id}/review`,
+      handler: createProductReviewAction,
+      options: {
+        description: 'Create new product review.',
+        tags: ['api'],
+        validate: {
+          params: Joi.object({
+            id: Joi.string().required(),
+          }),
+          payload: Joi.object({
+            rating: Joi.number().required(),
+            comment: Joi.string(),
+          }).required(),
         },
       },
     },

@@ -5,6 +5,7 @@ const makeProductModelConnetion = ({ dbConnection }: { dbConnection: Mongoose })
   } catch (e) {
     const reviewSchema = new dbConnection.Schema(
       {
+        user: { type: dbConnection.Schema.Types.ObjectId, required: true, ref: 'User' },
         name: { type: String, required: true },
         rating: { type: Number, required: true },
         comment: { type: String, required: true },
@@ -13,7 +14,7 @@ const makeProductModelConnetion = ({ dbConnection }: { dbConnection: Mongoose })
     );
     const productSchema = new dbConnection.Schema(
       {
-        user: { type: dbConnection.Schema.Types.ObjectId },
+        user: { type: dbConnection.Schema.Types.ObjectId, required: true, ref: 'User' },
         name: { type: String, trim: true, required: true },
         image: { type: String, trim: true, required: true },
         brand: { type: String, trim: true, required: true },
