@@ -1,8 +1,12 @@
 import { Request } from '@hapi/hapi';
-export default ({ getAllProducts, wrapError }: any) => {
+export default ({ getAllProducts, countProducts, wrapError }: any) => {
   return async (request: Request) => {
     try {
-      const { keyword } = request.query as any;
+      const pageSize = 10;
+      const { keyword, pageNumber } = request.query as any;
+
+      const page = Number(pageNumber) || 1;
+
       const query = keyword
         ? {
             name: {
@@ -11,8 +15,9 @@ export default ({ getAllProducts, wrapError }: any) => {
             },
           }
         : {};
-      const products = await getAllProducts({ query });
-      return { statusCode: 200, data: products };
+      const count = await countProducts({ query });
+      const products = await getAllProducts({ query, pageSize, page });
+      return { statusCode: 200, data: { products, page, pages: Math.ceil(count / pageSize) } };
     } catch (err) {
       return wrapError(err);
     }

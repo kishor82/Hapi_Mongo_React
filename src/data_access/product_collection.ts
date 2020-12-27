@@ -8,13 +8,16 @@ const makeProductCollection = ({ createMongoConnectoin, productModel }: any) => 
     }
   };
 
-  const getAllProducts = async ({ query }: any) => {
+  const getAllProducts = async ({ query, pageSize, page }: any) => {
     try {
       const dbConnection = await createMongoConnectoin();
       /**
        * Get all products or get with with specified keyword.
        */
-      return productModel({ dbConnection }).find({ ...query });
+      return productModel({ dbConnection })
+        .find({ ...query })
+        .limit(pageSize)
+        .skip(pageSize * (page - 1));
     } catch (err) {
       throw err;
     }
@@ -60,12 +63,25 @@ const makeProductCollection = ({ createMongoConnectoin, productModel }: any) => 
     }
   };
 
+  const countDocuments = async ({ query }: any) => {
+    try {
+      const dbConnection = await createMongoConnectoin();
+      /**
+       * Get all products or get with with specified keyword.
+       */
+      return productModel({ dbConnection }).countDocuments({ ...query });
+    } catch (err) {
+      throw err;
+    }
+  };
+
   return Object.freeze({
     getAllProducts,
     getProductById,
     deleteProductById,
     updateProductById,
     addNewProduct,
+    countDocuments,
   });
 };
 

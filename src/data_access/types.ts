@@ -4,6 +4,7 @@ export interface ProductCollection {
   updateProductById: ({ _id, dataToUpdate }: { _id: string; dataToUpdate: any }) => Promise<any>;
   deleteProductById: ({ _id }: { _id: string }) => Promise<any>;
   addNewProduct: ({ productData }: { productData: any }) => Promise<any>;
+  countDocuments: ({ query }: any) => Promise<any>;
 }
 export interface UserCollection {
   getAllusers: () => Promise<any>;

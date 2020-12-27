@@ -15,6 +15,7 @@ import {
   updateProductById,
   addProduct,
   getAllOrders,
+  countProducts,
 } from '../use_cases';
 
 import makeGreetWelcomeAction from './greet_welcome';
@@ -44,7 +45,7 @@ import generateCustomError from '../utils/custom_error';
 import generateToken from '../utils/generate_token';
 
 const greetWelcomeAction = makeGreetWelcomeAction({ greetWelcome });
-const getAllProductsAction = makeGetAllProductsAction({ getAllProducts, wrapError });
+const getAllProductsAction = makeGetAllProductsAction({ getAllProducts, countProducts, wrapError });
 const getProductAction = makeGetProductAction({ getProduct, generateCustomError, wrapError });
 const loginAction = makeLoginAction({ getUserByEmail, generateToken, generateCustomError, wrapError });
 const getUserProfileAction = makeGetUserProfileAction({ getUserById, generateCustomError, wrapError });

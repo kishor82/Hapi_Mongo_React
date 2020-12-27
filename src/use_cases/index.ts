@@ -16,6 +16,7 @@ import makeDeleteProductById from './delete_product_by_id';
 import makeUpdateProductById from './update_product_by_id';
 import makeAddProduct from './add_product';
 import makeGetAllOrdes from './get_all_orders';
+import makeCountProducts from './count_products';
 
 const greetWelcome = makeGreetWelcome();
 const getAllProducts = makeGetAllProducts({ productCollection });
@@ -33,6 +34,7 @@ const deleteProductById = makeDeleteProductById({ productCollection });
 const updateProductById = makeUpdateProductById({ productCollection });
 const addProduct = makeAddProduct({ productCollection });
 const getAllOrders = makeGetAllOrdes({ orderCollection });
+const countProducts = makeCountProducts({ productCollection });
 
 export {
   greetWelcome,
@@ -51,4 +53,5 @@ export {
   updateProductById,
   addProduct,
   getAllOrders,
+  countProducts
 };

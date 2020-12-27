@@ -68,6 +68,7 @@ export const routes = (server: Server, config: any) => {
         validate: {
           query: Joi.object({
             keyword: Joi.string().allow(''),
+            pageNumber: Joi.string().allow(''),
           }),
         },
         tags: ['api'],
