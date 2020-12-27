@@ -75,6 +75,18 @@ const makeProductCollection = ({ createMongoConnectoin, productModel }: any) => 
     }
   };
 
+  const getTopProducts = async ({ topLimit }: any) => {
+    try {
+      const dbConnection = await createMongoConnectoin();
+      /**
+       * Return top rating products in descending order.
+       */
+      return productModel({ dbConnection }).find({}).sort({ rating: -1 }).limit(topLimit);
+    } catch (err) {
+      throw err;
+    }
+  };
+
   return Object.freeze({
     getAllProducts,
     getProductById,
@@ -82,6 +94,7 @@ const makeProductCollection = ({ createMongoConnectoin, productModel }: any) => 
     updateProductById,
     addNewProduct,
     countDocuments,
+    getTopProducts
   });
 };
 

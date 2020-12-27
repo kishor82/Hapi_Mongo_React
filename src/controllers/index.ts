@@ -16,6 +16,7 @@ import {
   addProduct,
   getAllOrders,
   countProducts,
+  getTopProducts,
 } from '../use_cases';
 
 import makeGreetWelcomeAction from './greet_welcome';
@@ -39,6 +40,7 @@ import makeAddProductAction from './add_product';
 import makeGetAllOrdersAction from './get_all_orders';
 import makeUpdateOrderToDeliveredAction from './update_order_to_delivered';
 import makeCreateProductReviewAction from './create_product_review';
+import makeGetTopProductsAction from './get_top_products';
 
 import wrapError from '../utils/wrap_error';
 import generateCustomError from '../utils/custom_error';
@@ -62,6 +64,7 @@ const updateProductByIdAction = makeUpdateProductByIdAction({ updateProductById,
 const addProductAction = makeAddProductAction({ addProduct, generateCustomError, wrapError });
 const getAllOrdersAction = makeGetAllOrdersAction({ getAllOrders, wrapError });
 const updateOrderToDeliveredAction = makeUpdateOrderToDeliveredAction({ getOrderById, generateCustomError, wrapError });
+const getTopProductsAction  = makeGetTopProductsAction({ getTopProducts, wrapError });
 const createProductReviewAction = makeCreateProductReviewAction({
   updateProductById,
   getProduct,
@@ -105,4 +108,5 @@ export {
   getAllOrdersAction,
   updateOrderToDeliveredAction,
   createProductReviewAction,
+  getTopProductsAction
 };

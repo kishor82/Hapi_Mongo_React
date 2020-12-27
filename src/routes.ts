@@ -21,6 +21,7 @@ import {
   getAllOrdersAction,
   updateOrderToDeliveredAction,
   createProductReviewAction,
+  getTopProductsAction,
 } from './controllers';
 import {
   API_ROUTE_GREETING,
@@ -402,6 +403,16 @@ export const routes = (server: Server, config: any) => {
             id: Joi.string().required(),
           }),
         },
+      },
+    },
+    {
+      method: 'GET',
+      path: `${API_ROUTE_PRODUCTS}/top`,
+      handler: getTopProductsAction,
+      options: {
+        auth: false,
+        description: 'Get Top products.',
+        tags: ['api'],
       },
     },
   ]);
