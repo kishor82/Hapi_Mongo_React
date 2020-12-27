@@ -7,7 +7,7 @@ import Loader from '../components/Loader';
 import { listProducts } from '../actions/productActions';
 import { useParams } from 'react-router-dom';
 import Paginate from '../components/Paginate';
-
+import ProductCarousel from '../components/ProductCarousel';
 interface Product {
   _id: string;
   name: string;
@@ -33,6 +33,7 @@ const HomeScreen: FunctionComponent<any> = () => {
   }, [dispatch, keyword, pageNumber]);
   return (
     <>
+      {!keyword && <ProductCarousel />}
       <h1>Latest Products</h1>
       {loading ? (
         <Loader></Loader>

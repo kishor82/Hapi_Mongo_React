@@ -17,6 +17,9 @@ import {
   PRODUCT_CREATE_REVIEW_FAIL,
   PRODUCT_CREATE_REVIEW_REQUEST,
   PRODUCT_CREATE_REVIEW_SUCCESS,
+  PRODUCT_TOP_FAIL,
+  PRODUCT_TOP_REQUEST,
+  PRODUCT_TOP_SUCCESS,
 } from '../constants/productConstants';
 import axios from 'axios';
 import swal from 'sweetalert';
@@ -163,6 +166,20 @@ export const createProductReview = (id: any, review: any) => async (dispatch: an
   } catch (err) {
     dispatch({
       type: PRODUCT_CREATE_REVIEW_FAIL,
+      payload: err.response && err.response.data.message ? err.response.data.message : err.message,
+    });
+  }
+};
+
+export const listTopProducts = () => async (dispatch: any) => {
+  try {
+    dispatch({ type: PRODUCT_TOP_REQUEST });
+
+    const { data } = await axios.get(`/api/v1/products/top`);
+    dispatch({ type: PRODUCT_TOP_SUCCESS, payload: data.data });
+  } catch (err) {
+    dispatch({
+      type: PRODUCT_TOP_FAIL,
       payload: err.response && err.response.data.message ? err.response.data.message : err.message,
     });
   }
