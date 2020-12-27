@@ -21,11 +21,11 @@ import {
 import axios from 'axios';
 import swal from 'sweetalert';
 
-export const listProducts = () => async (dispatch: any) => {
+export const listProducts = (keyword: string = '') => async (dispatch: any) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
 
-    const { data } = await axios.get('/api/v1/products');
+    const { data } = await axios.get(`/api/v1/products?keyword=${keyword}`);
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data.data });
   } catch (err) {
     dispatch({

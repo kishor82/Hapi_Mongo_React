@@ -5,6 +5,7 @@ import Product from '../components/Product';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { listProducts } from '../actions/productActions';
+import { useParams } from 'react-router-dom';
 
 interface Product {
   _id: string;
@@ -21,13 +22,14 @@ interface Product {
 
 const HomeScreen: FunctionComponent<any> = () => {
   const dispatch = useDispatch();
+  const { keyword } = useParams<any>();
 
   const productList: any = useSelector((state: any) => state.productList);
   const { error, loading, products } = productList;
 
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(keyword));
+  }, [dispatch, keyword]);
   return (
     <>
       <h1>Latest Products</h1>
