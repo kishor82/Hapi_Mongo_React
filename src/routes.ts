@@ -1,7 +1,7 @@
 import { Server } from '@hapi/hapi';
 import {
   greetWelcomeAction,
-  listProductsAction,
+  getAllProductsAction,
   getProductAction,
   loginAction,
   getUserProfileAction,
@@ -61,10 +61,15 @@ export const routes = (server: Server, config: any) => {
     {
       method: 'GET',
       path: `${API_ROUTE_PRODUCTS}`,
-      handler: listProductsAction,
+      handler: getAllProductsAction,
       options: {
         auth: false,
         description: 'Get all products.',
+        validate: {
+          query: Joi.object({
+            keyword: Joi.string().allow(''),
+          }),
+        },
         tags: ['api'],
       },
     },

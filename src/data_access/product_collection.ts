@@ -8,10 +8,13 @@ const makeProductCollection = ({ createMongoConnectoin, productModel }: any) => 
     }
   };
 
-  const getAllProducts = async () => {
+  const getAllProducts = async ({ query }: any) => {
     try {
       const dbConnection = await createMongoConnectoin();
-      return productModel({ dbConnection }).find({});
+      /**
+       * Get all products or get with with specified keyword.
+       */
+      return productModel({ dbConnection }).find({ ...query });
     } catch (err) {
       throw err;
     }

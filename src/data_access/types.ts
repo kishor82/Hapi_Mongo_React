@@ -1,5 +1,5 @@
 export interface ProductCollection {
-  getAllProducts: () => Promise<any>;
+  getAllProducts: ({ query }: any) => Promise<any>;
   getProductById: ({ _id }: any) => Promise<any>;
   updateProductById: ({ _id, dataToUpdate }: { _id: string; dataToUpdate: any }) => Promise<any>;
   deleteProductById: ({ _id }: { _id: string }) => Promise<any>;

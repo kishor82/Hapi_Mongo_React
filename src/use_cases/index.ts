@@ -1,7 +1,7 @@
 import { productCollection, userCollection, orderCollection } from '../data_access';
 
 import makeGreetWelcome from './greet_welcome';
-import makeListProducts from './list_products';
+import makeGetAllProducts from './get_all_products';
 import makeGetProduct from './get_product';
 import makeGetUserByEmail from './get_user_by_email';
 import makeGetUserById from './get_user_by_id';
@@ -18,7 +18,7 @@ import makeAddProduct from './add_product';
 import makeGetAllOrdes from './get_all_orders';
 
 const greetWelcome = makeGreetWelcome();
-const listProducts = makeListProducts({ productCollection });
+const getAllProducts = makeGetAllProducts({ productCollection });
 const getProduct = makeGetProduct({ productCollection });
 const getUserByEmail = makeGetUserByEmail({ userCollection });
 const getUserById = makeGetUserById({ userCollection });
@@ -36,7 +36,7 @@ const getAllOrders = makeGetAllOrdes({ orderCollection });
 
 export {
   greetWelcome,
-  listProducts,
+  getAllProducts,
   getProduct,
   getUserByEmail,
   getUserById,
@@ -50,5 +50,5 @@ export {
   deleteProductById,
   updateProductById,
   addProduct,
-  getAllOrders
+  getAllOrders,
 };
