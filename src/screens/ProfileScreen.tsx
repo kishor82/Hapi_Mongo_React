@@ -26,12 +26,16 @@ const ProfileScreen: FunctionComponent<Props> = ({ history }) => {
   const { loading: loadingOrders, orders, error: errorOrders } = useSelector((state: any) => state.orderListMy);
 
   useEffect(() => {
+    dispatch(listMyOrders());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     if (!userInfo) {
       history.push('/login');
     } else {
       if (!user?.name) {
         dispatch(getUserDetails('profile'));
-        dispatch(listMyOrders());
       } else {
         setName(user.name);
         setEmail(user.email);

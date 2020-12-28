@@ -23,7 +23,7 @@
   "proxy": "http://localhost:7781",
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && mv build ../",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build && mv build ../",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

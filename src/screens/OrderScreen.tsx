@@ -9,18 +9,17 @@ import Loader from '../components/Loader';
 import { getOrderDetails, payOrder, deliverOrder } from '../actions/orderActions';
 import { ORDER_PAY_RESET, ORDER_DELIVER_RESET } from '../constants/orderConstants';
 
-interface Props {
-  match: any;
-}
+interface Props {}
 
 const addDecimals = (num: number) => {
   return (Math.round(num * 100) / 100).toFixed(2);
 };
 
-const OrderScreen: FunctionComponent<Props> = ({ match }) => {
+const OrderScreen: FunctionComponent<Props> = () => {
   const history = useHistory();
   const { id: orderId } = useParams<any>();
-  const [sdkReady, setSdkReady] = useState(false);
+  const [clientId, setClientId] = useState('');
+  const [sdkReady, setSdkReacy] = useState(false);
   const dispatch = useDispatch();
 
   const { order, loading, error } = useSelector((state: any) => state.orderDetails);
@@ -43,28 +42,16 @@ const OrderScreen: FunctionComponent<Props> = ({ match }) => {
     if (!userInfo) {
       history.push('/login');
     }
-    const addPayPalScript = async () => {
+    const getClientId = async () => {
       const { data: clientId } = await axios.get('/api/v1/config/paypal');
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
-      script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
-      script.async = true;
-      script.onload = () => {
-        setSdkReady(true);
-      };
-      document.body.appendChild(script);
+      setClientId(clientId);
     };
     if (!order || successPay || successDeliver) {
       dispatch(getOrderDetails(orderId));
       dispatch({ type: ORDER_PAY_RESET });
       dispatch({ type: ORDER_DELIVER_RESET });
-    } else if (!order.isPaid) {
-      if (!(window as any).paypal) {
-        addPayPalScript();
-      } else {
-        setSdkReady(true);
-      }
     }
+    getClientId();
   }, [orderId, dispatch, successPay, successDeliver, order, history, userInfo]);
 
   const successPaymentHandler = (paymentResult: any) => {
@@ -178,10 +165,16 @@ const OrderScreen: FunctionComponent<Props> = ({ match }) => {
               {!order.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
-                  {!sdkReady ? (
+                  {!sdkReady && <Loader />}
+                  {!clientId ? (
                     <Loader />
                   ) : (
-                    <PayPalButton amount={order.totalPrice} onSuccess={successPaymentHandler} />
+                    <PayPalButton
+                      amount={order.totalPrice}
+                      onSuccess={successPaymentHandler}
+                      options={{ clientId: clientId }}
+                      onButtonReady={() => setSdkReacy(true)}
+                    />
                   )}
                 </ListGroup.Item>
               )}
