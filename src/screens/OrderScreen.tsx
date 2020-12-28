@@ -55,6 +55,7 @@ const OrderScreen: FunctionComponent<Props> = ({ match }) => {
       document.body.appendChild(script);
     };
     if (!order || successPay || successDeliver) {
+      dispatch(getOrderDetails(orderId));
       dispatch({ type: ORDER_PAY_RESET });
       dispatch({ type: ORDER_DELIVER_RESET });
     } else if (!order.isPaid) {

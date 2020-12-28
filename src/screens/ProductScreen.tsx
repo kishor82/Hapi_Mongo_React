@@ -8,6 +8,7 @@ import Loader from '../components/Loader';
 import { listProductDetails, createProductReview } from '../actions/productActions';
 import swal from 'sweetalert';
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
+import Meta from '../components/Meta';
 interface Props {}
 
 const ProductScreen: FunctionComponent<Props> = () => {
@@ -59,6 +60,7 @@ const ProductScreen: FunctionComponent<Props> = () => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
+          <Meta title={product.name} />
           <Row>
             <Col md={6}>
               <Image src={product?.image} alt={product?.name} fluid />
