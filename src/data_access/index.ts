@@ -37,6 +37,7 @@ const createMongoConnectoin = async (server?: Server, config?: any) => {
   }
   if (server) healthCheck(server, config, Mongoose).start();
   try {
+    server?.log(['info', 'mongo'], `Connecting to : ${getMongoURL()}`);
     const db = await Mongoose.connect(getMongoURL(), options);
     server?.log(['info', 'mongo'], `MongoDB initialized successfully with ${db.connection.host}.`);
     return Mongoose;
