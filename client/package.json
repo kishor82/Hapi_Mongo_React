@@ -22,6 +22,7 @@
   },
   "proxy": "http://localhost:7781",
   "scripts": {
+    "preinstall": "NPM_CONFIG_PRODUCTION=false",
     "start": "react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build && mv build ../",
     "test": "react-scripts test",
