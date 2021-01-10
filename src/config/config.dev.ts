@@ -6,7 +6,7 @@ export = {
     json: true,
     events: {},
     // Provide destination name starting from the root directory.
-    dest: 'stdout',
+    dest: 'server.log',
     filter: {},
     timezone: 'UTC',
     ops: { interval: 5000 },
@@ -19,6 +19,7 @@ export = {
     debug: true,
     authSource: 'admin',
     replicaSet: '',
+    isLocal: true,
     server: {
       auto_reconnect: true,
       poolSize: 10,
@@ -41,5 +42,5 @@ export = {
     delay: 5000,
   },
   jwt_secret_key: '=Bu^%A@^F#SwsYhF3&kSR6!FA*C2U6nz',
-  paypal_client_id: 'AcMsWrnUysozLhaB-3en_sXwH_rQ-ttM_hRdKlf-klXnG7s2CZIf6pDC4QPawdC79bU5Ja_RkAGS7Yu_',
+  paypal_client_id: '',
 };

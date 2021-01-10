@@ -7,10 +7,11 @@
     "/dist"
   ],
   "scripts": {
-    "preinstall": "node ./preinstall_check",
+    "preinstall": "NPM_CONFIG_PRODUCTION=false && node ./preinstall_check",
     "prebuild": "rm -rf dist",
     "build": "tsc",
     "build:prod": "npm run build && rm -rf build && cd client && yarn build",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn build:prod",
     "start": "node ./dist/index.js",
     "dev": "ts-node-dev --files src/index.ts"
   },

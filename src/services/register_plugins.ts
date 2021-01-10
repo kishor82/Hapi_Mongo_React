@@ -61,7 +61,7 @@ export default async (server: Server) => {
     options: { auth: false },
     handler: {
       directory: {
-        path: Path.join(__dirname, '../uploads'),
+        path: Path.join(__dirname, '../../uploads'),
       },
     },
   });
@@ -116,7 +116,7 @@ export default async (server: Server) => {
         const { file } = request.payload;
         const uploadDir = 'uploads';
         const fileName = `${Date.now()}-${file.hapi.filename.split(' ').join('-')}`;
-        const finalPath = Path.join(__dirname, `../${uploadDir}`);
+        const finalPath = Path.join(__dirname, `../../${uploadDir}`);
         const uploadedPath = await uploadFile(file, finalPath, fileName, (err: any, result: any) => {
           if (err) {
             return err;

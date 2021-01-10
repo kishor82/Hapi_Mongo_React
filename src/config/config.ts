@@ -19,6 +19,7 @@ export = {
     debug: false,
     authSource: process.env.AUTH_SOURCE,
     replicaSet: process.env.REPLICA_SET,
+    isLocal: process.env.IS_LOCAL,
     server: {
       auto_reconnect: true,
       poolSize: 10,

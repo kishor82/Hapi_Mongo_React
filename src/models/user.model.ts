@@ -16,7 +16,7 @@ const makeUserModelConnetion = ({ dbConnection }: { dbConnection: Mongoose }) =>
     );
 
     userSchema.methods.matchPassword = async function (enteredPassword: string) {
-      return await bcrypt.compare(enteredPassword, this.password);
+      return await bcrypt.compare(enteredPassword, this.password as unknown as string);
     };
 
     /**

@@ -18,11 +18,13 @@ const options = Object.freeze({
   bufferMaxEntries: 0,
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
 });
 
 const getMongoURL = () => {
   const credentials = mongo.username ? `${mongo.username}:${mongo.password}@` : '';
-  return `mongodb://${credentials}${mongo.hosts}/${mongo.database}${
+  const mongoInitial = mongo.isLocal ? 'mongodb' : 'mongodb+srv';
+  return `${mongoInitial}://${credentials}${mongo.hosts}/${mongo.database}${
     mongo.authSource
       ? `?authSource=${mongo.authSource}${mongo.replicaSet ? `&replicaSet=${mongo.replicaSet}` : ''}`
       : ''
