@@ -6,7 +6,7 @@ export = {
     json: true,
     events: {},
     // Provide destination name starting from the root directory.
-    dest: 'server.log',
+    dest: 'stdout',
     filter: {},
     timezone: 'UTC',
     ops: { interval: 5000 },

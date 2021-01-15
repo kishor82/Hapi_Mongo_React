@@ -22,9 +22,9 @@
   },
   "proxy": "http://localhost:7781",
   "scripts": {
-    "preinstall": "NPM_CONFIG_PRODUCTION=false",
     "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false react-scripts build && mv build ../",
+    "prebuild": "yarn install",
+    "build": "react-scripts build && shx mv build ../",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
