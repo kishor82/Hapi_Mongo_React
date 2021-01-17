@@ -14,10 +14,10 @@ export = {
   mongo: {
     hosts: ['localhost:27017'],
     database: 'ecom',
-    username: 'myUserAdmin',
-    password: 'admin',
+    username: '',
+    password: '',
     debug: true,
-    authSource: 'admin',
+    authSource: '',
     replicaSet: '',
     isLocal: true,
     server: {
@@ -43,4 +43,9 @@ export = {
   },
   jwt_secret_key: '=Bu^%A@^F#SwsYhF3&kSR6!FA*C2U6nz',
   paypal_client_id: '',
+  cloudinary: {
+    cloud_name: '',
+    api_key: '',
+    api_secret: '',
+  },
 };

@@ -43,4 +43,9 @@ export = {
   },
   jwt_secret_key: process.env.JWT_SECRET_KEY,
   paypal_client_id: process.env.PAYPAL_CLIENT_ID,
+  cloudinary: {
+    cloud_name: process.env.CDN_CLOUD_NAME,
+    api_key: process.env.CDN_API_KEY,
+    api_secret: process.env.CDN_API_SECRET,
+  },
 };

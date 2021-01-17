@@ -1,18 +1,18 @@
-import { Stream } from 'stream';
-import fs from 'fs';
-import Path from 'path';
+import cloudinary from 'cloudinary';
 
-const uploadFile = (fileStream: Stream, dirPath: string, fileName: string, callback: any) => {
-  return new Promise(function (resolve, reject) {
-    const outStream = fs.createWriteStream(Path.join(dirPath, fileName));
-    fileStream.pipe(outStream);
-    outStream.on('error', (err) => {
-      reject(callback(err));
-    });
-    outStream.on('finish', function () {
-      resolve(callback(null, fileName));
-    });
+const uploadFile = async (file: any, config: any) => {
+  const { cloud_name, api_key, api_secret } = config.cloudinary;
+  cloudinary.v2.config({
+    cloud_name,
+    api_key,
+    api_secret,
   });
+  try {
+    const result = await cloudinary.v2.uploader.upload(file.path);
+    return result;
+  } catch (err) {
+    throw err;
+  }
 };
 
 export default uploadFile;

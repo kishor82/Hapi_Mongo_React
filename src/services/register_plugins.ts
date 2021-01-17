@@ -6,7 +6,7 @@ import { Server, ServerRegisterPluginObject } from '@hapi/hapi';
 import Joi from 'joi';
 import uploadFile from '../utils/upload_file';
 
-export default async (server: Server) => {
+export default async (server: Server, config: any) => {
   const swaggerOptions: HapiSwagger.RegisterOptions = {
     info: {
       title: 'API Documentation',
@@ -55,17 +55,6 @@ export default async (server: Server) => {
     },
   });
 
-  server.route({
-    method: 'GET',
-    path: '/uploads/{p*}',
-    options: { auth: false },
-    handler: {
-      directory: {
-        path: Path.join(__dirname, '../../uploads'),
-      },
-    },
-  });
-
   const imageValidator = Joi.string()
     .regex(/(jpe?g|png)$/i)
     .message('Image must of type jpe,jpeg or png !')
@@ -80,22 +69,20 @@ export default async (server: Server) => {
         scope: 'admin',
       },
       payload: {
-        output: 'stream',
+        output: 'file',
         parse: true,
         allow: 'multipart/form-data',
         maxBytes: 2 * 1000 * 1000,
         multipart: {
-          output: 'stream',
+          output: 'file',
         },
       },
       validate: {
         payload: Joi.object({
           file: Joi.object({
-            hapi: Joi.object({
-              filename: imageValidator,
-              headers: Joi.object({
-                'content-type': imageValidator,
-              }).unknown(true),
+            filename: imageValidator,
+            headers: Joi.object({
+              'content-type': imageValidator,
             }).unknown(true),
           })
             .unknown(true)
@@ -114,17 +101,8 @@ export default async (server: Server) => {
     handler: async (request: any) => {
       try {
         const { file } = request.payload;
-        const uploadDir = 'uploads';
-        const fileName = `${Date.now()}-${file.hapi.filename.split(' ').join('-')}`;
-        const finalPath = Path.join(__dirname, `../../${uploadDir}`);
-        const uploadedPath = await uploadFile(file, finalPath, fileName, (err: any, result: any) => {
-          if (err) {
-            return err;
-          }
-          return `/${uploadDir}/${result}`;
-        });
-
-        return uploadedPath;
+        const { url } = await uploadFile(file, config);
+        return url;
       } catch (err) {
         throw err;
       }

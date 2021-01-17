@@ -9,6 +9,9 @@
 # testing
 /coverage
 
+#dev config
+/src/config/config.*.ts
+
 # production
 /build
 /dist
