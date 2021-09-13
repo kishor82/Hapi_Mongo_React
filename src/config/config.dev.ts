@@ -12,7 +12,7 @@ export = {
     ops: { interval: 5000 },
   },
   mongo: {
-    hosts: ['localhost:27017'],
+    hosts: ['mongo:27017'],
     database: 'ecom',
     username: '',
     password: '',

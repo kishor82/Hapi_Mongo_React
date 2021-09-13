@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  mongohapireactnode:
+    image: mongohapireactnode
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: dev
+    ports:
+      - 7781:7781
+  mongo:
+    image: mongo:4.0.26-xenial
+    ports: 
+      - 27017:27017
+    volumes: 
+      - data:/data/db
+  
+volumes: 
+  data:
